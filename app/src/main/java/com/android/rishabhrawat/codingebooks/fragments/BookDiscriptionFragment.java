@@ -3,7 +3,6 @@ package com.android.rishabhrawat.codingebooks.fragments;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -20,7 +19,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.rishabhrawat.codingebooks.R;
-import com.android.rishabhrawat.codingebooks.activities.BottomNavigationActivity;
 import com.android.rishabhrawat.codingebooks.generalclasses.TouchDetectableScrollView;
 import com.android.rishabhrawat.codingebooks.modelclasses.BookDiscriptionModel;
 import com.android.rishabhrawat.codingebooks.room_database.BookEntity;
@@ -32,6 +30,13 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.util.concurrent.Callable;
+
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 
 public class BookDiscriptionFragment extends Fragment {
@@ -51,9 +56,6 @@ public class BookDiscriptionFragment extends Fragment {
 
     private String PDF_LINK = null;
 
-    private static BookDiscriptionModel bookDiscription;
-    private static StringBuffer stringBuffer;
-
     //Layout widget
     private TextView book_name, book_isbn, book_size, book_category, book_author, book_pages, book_year, book_information;
     private ImageView book_image;
@@ -66,6 +68,8 @@ public class BookDiscriptionFragment extends Fragment {
     private ImageView toolbar_img;
     private ImageView book_add;
     private CardView card;
+    private ImageView noconnection;
+    private TextView noconnection_textview;
 
     static BookViewModel bookViewModel;
 
@@ -83,6 +87,7 @@ public class BookDiscriptionFragment extends Fragment {
         args.putString(NAME, param3);
         args.putString(IMAGE, param4);
         args.putString(BOOK_DETAIL, param5);
+        //this state i use for the add button visibility
         args.putBoolean(STATE, state);
         fragment.setArguments(args);
         return fragment;
@@ -109,6 +114,8 @@ public class BookDiscriptionFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_book_discription, container, false);
         createView(view);
 
+        noconnection_textview.setVisibility(View.GONE);
+        noconnection.setVisibility(View.GONE);
 
         if (checkstate == true) {
             book_add.setVisibility(View.VISIBLE);
@@ -142,7 +149,7 @@ public class BookDiscriptionFragment extends Fragment {
         if (getArguments().getString("book_info_bundle") != null) {
             setdatafrombundle();
         } else {
-            new MyAsynckTask(getActivity()).execute(books_url_bundle);
+            ASYNC_TASK(books_url_bundle);
         }
 
 
@@ -150,7 +157,7 @@ public class BookDiscriptionFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (isNetworkConnected()) {
-                    Fragment fragment = new BookWebViewFragment().newInstance(PDF_LINK,getArguments().getString(NAME));
+                    Fragment fragment = new BookWebViewFragment().newInstance(PDF_LINK, getArguments().getString(NAME));
                     FragmentTransaction transaction = getFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_left, R.anim.slide_right);
                     transaction.add(android.R.id.content, fragment);
                     transaction.addToBackStack("book_pdf");
@@ -210,6 +217,8 @@ public class BookDiscriptionFragment extends Fragment {
         toolbar_text = view.findViewById(R.id.book_description_toolbar_text);
         card = view.findViewById(R.id.book_description_toolbar_card);
         book_add = view.findViewById(R.id.add_book_description);
+        noconnection=view.findViewById(R.id.lost_connection_image);
+        noconnection_textview=view.findViewById(R.id.error_text);
     }
 
     private void hideVisibility() {
@@ -248,118 +257,135 @@ public class BookDiscriptionFragment extends Fragment {
         actionButton.show();
     }
 
-    class MyAsynckTask extends AsyncTask<String, Void, Void> {
-        StringBuffer buffer = new StringBuffer();
-        BookDiscriptionModel bookDiscriptionModel = new BookDiscriptionModel();
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            hideVisibility();
-        }
+    private void ASYNC_TASK(String url) {
 
-        public MyAsynckTask(Context context) {
-        }
+        createObservable(url).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(new Consumer<Disposable>() {
+                    @Override
+                    public void accept(Disposable disposable) {
+                        //PreExecuted Method
+                        hideVisibility();
 
-        @Override
-        protected Void doInBackground(String... strings) {
-            try {
-                final Document document = Jsoup.connect(strings[0]).get();
-                Log.d("Rishabh", "inside the thread");
-                Elements mElementDataSize = document.select("div[class=book-detail] >dl > dd");
-                // Elements dllist=mElementDataSize.select("dl");
-                int mElementSize = mElementDataSize.size();
-                Log.d("Rishabh", "Size of the list is the " + mElementSize);
-                for (int i = 0; i <= mElementSize - 1; i++) {
-                    Log.d("Rishabh", "in the loop " + i);
-                    switch (i) {
-                        case 0:
-                            bookDiscriptionModel.setAuthor(mElementDataSize.get(i).text());
-                            break;
-                        case 1:
-                            bookDiscriptionModel.setIsbn(mElementDataSize.get(i).text());
-                            break;
-                        case 2:
-                            bookDiscriptionModel.setYear(mElementDataSize.get(i).text());
-                            break;
-                        case 3:
-                            bookDiscriptionModel.setPages(mElementDataSize.get(i).text());
-                            break;
-                        case 4:
-                            bookDiscriptionModel.setLanguage(mElementDataSize.get(i).text());
-                            break;
-                        case 5:
-                            bookDiscriptionModel.setPdf_size(mElementDataSize.get(i).text());
-                            break;
-                        case 6:
-                            bookDiscriptionModel.setFormat(mElementDataSize.get(i).text());
-                            break;
-                        case 7:
-                            bookDiscriptionModel.setCategory(mElementDataSize.get(i).text());
-                            break;
                     }
-                    //Log.d("Rishabh", "Book discription is "+buffer.toString());
+                }).subscribe(new Observer<BookDiscriptionModel>() {
+            @Override
+            public void onSubscribe(Disposable d) {
 
-                }
-
-
-                Elements melement = document.select("div[class=entry-content] > *");
-                Log.d("Rishabh ", "Particular book data is " + melement.text());
-                buffer.append(melement.text());
-
-                pdf_link = document.select("span[class=download-links]").select("a").attr("href");
-                Log.d("Rishabh", "PDF LINK IS " + pdf_link);
-
-
-                for (int i = 0; i <= pdf_link.length() - 1; i++) {
-                    if (pdf_link.charAt(i) == ' ') {
-                        builder.append("%20");
-                    } else {
-                        builder.append(pdf_link.charAt(i));
-                    }
-                }
-
-                stringBuffer = buffer;
-                bookDiscription = bookDiscriptionModel;
-
-            } catch (IOException e) {
-                e.printStackTrace();
             }
-            return null;
-        }
 
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-//            toolbar_text.setText(books_name_bundle);
-            book_name.setText(books_name_bundle);
-            book_author.setText("Author : " + bookDiscriptionModel.getAuthor());
-            book_category.setText("Category : " + bookDiscriptionModel.getCategory());
-            book_isbn.setText("ISBN : " + bookDiscriptionModel.getIsbn());
-            book_pages.setText("Pages : " + bookDiscriptionModel.getPages());
-            book_size.setText("Size : " + bookDiscriptionModel.getPdf_size());
-            book_year.setText("Year : " + bookDiscriptionModel.getYear());
-            book_information.setText(buffer.toString());
-            Picasso.get().load(books_imageurl_bundle).into(book_image);
-            showVisibility();
-            saveState();
+            @Override
+            public void onNext(BookDiscriptionModel value) {
 
-        }
+                //after getting data from the async task
+                toolbar_text.setText(books_name_bundle);
+                book_name.setText(books_name_bundle);
+                book_author.setText("Author : " + value.getAuthor());
+                book_category.setText("Category : " + value.getCategory());
+                book_isbn.setText("ISBN : " + value.getIsbn());
+                book_pages.setText("Pages : " + value.getPages());
+                book_size.setText("Size : " + value.getPdf_size());
+                book_year.setText("Year : " + value.getYear());
+                book_information.setText(value.getBook_description());
+                Picasso.get().load(books_imageurl_bundle).into(book_image);
+                save_the_data_in_bundle(value);
+
+            }
+
+
+            @Override
+            public void onError(Throwable e) {
+
+                //its time to show the error
+                progressBar.setVisibility(View.GONE);
+                noconnection_textview.setVisibility(View.VISIBLE);
+                noconnection.setVisibility(View.VISIBLE);
+                book_add.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onComplete() {
+                //onpost executed
+                showVisibility();
+            }
+        });
     }
 
-
-    private void saveState() { /* called either from onDestroyView() or onSaveInstanceState() */
-
-        args.putString("book_year_bundle", bookDiscription.getYear());
-        args.putString("book_size_bundle", bookDiscription.getPdf_size());
-        args.putString("book_isbn_bundle", bookDiscription.getIsbn());
-        args.putString("book_category_bundle", bookDiscription.getCategory());
-        args.putString("book_author_bundle", bookDiscription.getAuthor());
-        args.putString("book_info_bundle", stringBuffer.toString());
-        args.putString("book_pages_bundle", bookDiscription.getPages());
-        args.putString("book_pdf_link", builder.toString());
-        PDF_LINK = builder.toString();
+    private void save_the_data_in_bundle(BookDiscriptionModel model) {
+        args.putString("book_year_bundle", model.getYear());
+        args.putString("book_size_bundle", model.getPdf_size());
+        args.putString("book_isbn_bundle", model.getIsbn());
+        args.putString("book_category_bundle", model.getCategory());
+        args.putString("book_author_bundle", model.getAuthor());
+        args.putString("book_info_bundle", model.getBook_description());
+        args.putString("book_pages_bundle", model.getPages());
+        args.putString("book_pdf_link", model.getPdf_url());
+        PDF_LINK = model.getPdf_url();
     }
 
+    private BookDiscriptionModel runasyntask(String url) throws IOException {
+        BookDiscriptionModel mymodel = new BookDiscriptionModel();
+        StringBuffer mybuffer = new StringBuffer();
+
+        final Document document = Jsoup.connect(url).get();
+        Elements mElementDataSize = document.select("div[class=book-detail] >dl > dd");
+        int mElementSize = mElementDataSize.size();
+        for (int i = 0; i <= mElementSize - 1; i++) {
+            switch (i) {
+                case 0:
+                    mymodel.setAuthor(mElementDataSize.get(i).text());
+                    break;
+                case 1:
+                    mymodel.setIsbn(mElementDataSize.get(i).text());
+                    break;
+                case 2:
+                    mymodel.setYear(mElementDataSize.get(i).text());
+                    break;
+                case 3:
+                    mymodel.setPages(mElementDataSize.get(i).text());
+                    break;
+                case 4:
+                    mymodel.setLanguage(mElementDataSize.get(i).text());
+                    break;
+                case 5:
+                    mymodel.setPdf_size(mElementDataSize.get(i).text());
+                    break;
+                case 6:
+                    mymodel.setFormat(mElementDataSize.get(i).text());
+                    break;
+                case 7:
+                    mymodel.setCategory(mElementDataSize.get(i).text());
+                    break;
+            }
+
+        }
+
+
+        Elements melement = document.select("div[class=entry-content] > *");
+        mybuffer.append(melement.text());
+
+        pdf_link = document.select("span[class=download-links]").select("a").attr("href");
+
+        for (int i = 0; i <= pdf_link.length() - 1; i++) {
+            if (pdf_link.charAt(i) == ' ') {
+                builder.append("%20");
+            } else {
+                builder.append(pdf_link.charAt(i));
+            }
+        }
+
+        mymodel.setBook_description(mybuffer.toString());
+        mymodel.setPdf_url(builder.toString());
+        return mymodel;
+    }
+
+    private io.reactivex.Observable<BookDiscriptionModel> createObservable(final String url) {
+        return io.reactivex.Observable.defer(new Callable<io.reactivex.ObservableSource<? extends BookDiscriptionModel>>() {
+            @Override
+            public io.reactivex.ObservableSource<? extends BookDiscriptionModel> call() throws Exception {
+                return io.reactivex.Observable.just(runasyntask(url));
+            }
+        });
+    }
 
 }

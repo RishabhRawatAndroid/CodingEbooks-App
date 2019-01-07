@@ -54,6 +54,7 @@
     <string name="delete_ing">Deleting Bookmark</string>
     <string name="undo">UNDO</string>
     <string name="delete_all">Delete All Bookmarks</string>
+    <string name="some_thing_wrong">OOPS Something went wrong!!! Slow Internet Connection or Network Error...</string>
 
 
     <string-array name="appSettingsLanguageListArray">

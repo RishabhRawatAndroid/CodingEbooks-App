@@ -9,6 +9,24 @@ public class BookDiscriptionModel {
     String pdf_size;
     String format;
     String category;
+    String pdf_url;
+    String book_description;
+
+    public String getPdf_url() {
+        return pdf_url;
+    }
+
+    public void setPdf_url(String pdf_url) {
+        this.pdf_url = pdf_url;
+    }
+
+    public String getBook_description() {
+        return book_description;
+    }
+
+    public void setBook_description(String book_description) {
+        this.book_description = book_description;
+    }
 
     public String getAuthor() {
         return author;

@@ -273,6 +273,28 @@ Web app developers and architects; useful for beginners learning front-end devel
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true" />
+
+        <ImageView
+            android:id="@+id/lost_connection_image"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="140dp"
+            android:src="@drawable/no_connection" />
+
+        <TextView
+            android:id="@+id/error_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/some_thing_wrong"
+            android:layout_below="@+id/lost_connection_image"
+            android:textColor="@color/dark_gray"
+            android:fontFamily="@font/abeezee"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:layout_margin="10dp"
+            android:textAlignment="center"/>
     </RelativeLayout>
 
     <android.support.design.widget.FloatingActionButton
