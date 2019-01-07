@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="10dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <View
+        android:id="@+id/location_holder2"
+        android:layout_width="0dp"
+        android:layout_height="8dp"
+        android:layout_margin="10dp"
+        android:background="@color/placeholder_color"
+        app:layout_constraintLeft_toRightOf="@+id/image_holder"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/location_holder" />
+
+    <View
+        android:id="@+id/image_holder"
+        android:layout_width="85dp"
+        android:layout_height="87dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@color/placeholder_color"
+        app:layout_constraintBottom_toBottomOf="@+id/location_holder2"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+
+    <View
+        android:id="@+id/name_holder"
+        android:layout_width="0dp"
+        android:layout_height="29dp"
+        android:layout_margin="10dp"
+        android:background="@color/placeholder_color"
+        app:layout_constraintLeft_toRightOf="@+id/image_holder"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/phone_holder"
+        android:layout_width="0dp"
+        android:layout_height="8dp"
+        android:layout_margin="10dp"
+        android:background="@color/placeholder_color"
+        app:layout_constraintLeft_toRightOf="@+id/image_holder"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/name_holder" />
+
+    <View
+        android:id="@+id/location_holder"
+        android:layout_width="0dp"
+        android:layout_height="8dp"
+        android:layout_margin="10dp"
+        android:layout_marginTop="28dp"
+        android:background="@color/placeholder_color"
+        app:layout_constraintLeft_toRightOf="@+id/image_holder"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/phone_holder" />
+
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+
+    <color name="white">#ffffff</color>
+    <color name="black">#000</color>
+
+
+    <!-- View Pager background Colors-->
+    <color name="first_bg_viewpager">#1A1927</color>
+    <color name="second_bg_viewpager">#b5e61d</color>
+    <color name="third_bg_viewpager">#021245</color>
+    <!-- dots inactive colors -->
+    <color name="first_dot_inactive_viewpager">#393756</color>
+    <color name="second_dot_inactive_viewpager">#7ea114</color>
+    <color name="third_dot_inactive_viewpager">#1b2957</color>
+    <!-- dots active colors -->
+    <color name="first_dot_active_viewpager">#474652</color>
+    <color name="second_dot_active_viewpager">#a2cf1a</color>
+    <color name="third_dot_active_viewpager">#4d597c</color>
+
+    <color name="splash_bg">#F5F5DD</color>
+    <color name="progressbar_color">#0B3D7E</color>
+
+
+    <color name="gray">#29323c</color>
+    <color name="bgBottomNavigation">#fe485a</color>
+
+    <color name="dark_gray">#A9A9A9</color>
+    <color name="dimgray">#D3D3D3</color>
+    <color name="secondary_white">#F5F5F5</color>
+    <color name="primary_white">#e5e5e5</color>
+    <color name="sky">#00b2f6</color>
+
+
+    <color name="tabitem1">#00b5af</color>
+    <color name="tabitem2">#ffcb05</color>
+    <color name="tabitem3">#ff6633</color>
+
+    <color name="dracula">#2b2727</color>
+    <color name="dracula1">#676565</color>
+    <color name="placeholder_color">#dddddd</color>
+
+
+</resources>

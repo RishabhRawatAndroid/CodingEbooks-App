@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/all_books_menu"
+        android:icon="@drawable/ic_library_books_black_24dp"
+        android:title="@string/all_books"/>
+
+    <item
+        android:id="@+id/book_categories"
+        android:icon="@drawable/ic_view_list_black_24dp"
+        android:title="@string/categories"/>
+
+    <item
+        android:id="@+id/book_bookmark"
+        android:icon="@drawable/ic_collections_bookmark_black_24dp"
+        android:title="@string/bookmark"/>
+
+</menu>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+
+
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+
+
+    <!-- View Pager background Colors-->
+    <color name="first_bg_viewpager">#1A1927</color>
+    <color name="second_bg_viewpager">#b5e61d</color>
+    <color name="third_bg_viewpager">#021245</color>
+    <!-- dots inactive colors -->
+    <color name="first_dot_inactive_viewpager">#393756</color>
+    <color name="second_dot_inactive_viewpager">#7ea114</color>
+    <color name="third_dot_inactive_viewpager">#1b2957</color>
+    <!-- dots active colors -->
+    <color name="first_dot_active_viewpager">#474652</color>
+    <color name="second_dot_active_viewpager">#a2cf1a</color>
+    <color name="third_dot_active_viewpager">#4d597c</color>
+
+
+</resources>

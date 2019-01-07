@@ -1,0 +1,69 @@
+<resources>
+    <string name="app_name">Coding EBooks</string>
+    <string name="content_discription">Image E-book</string>
+    <string name="welcome_title1">Computer and IT Ebooks</string>
+    <string name="welcome_note1">View your favourite Programming, Networking, IOT, Games, Certification Ebooks</string>
+    <string name="welcome_title2">Read Online Ebooks</string>
+    <string name="welcome_note2">Read ebook Anytime and Anywhere without downloading the long ebooks</string>
+    <string name="welcome_title3">Bookmark your Ebook</string>
+    <string name="welcome_note3">You can bookmark your favourite ebook for easy to find your favourite ebook</string>
+    <string name="title_activity_welcome_view_pager">WelcomeViewPagerActivity</string>
+    <string name="next">NEXT</string>
+    <string name="BACK">BACK</string>
+    <string name="SKIP">SKIP</string>
+    <string name="start">START</string>
+    <string name="no_internet">No Internet Connection  :(</string>
+    <string name="notconnected">You are not connected with internet thats why not refreshing</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="setting">Setting</string>
+    <string name="book_search">Search Books</string>
+    <string name="all_books">EBooks</string>
+    <string name="categories">Categories</string>
+    <string name="bookmark">Bookmarks</string>
+    <string name="coding_ebooks">\u0020\u0020Coding Ebooks</string>
+
+    <string name="general_setting">General Setting</string>
+    <string name="about_app">About the App</string>
+    <string name="new_book_notification">Notify me when new books come</string>
+    <string name="notification">Notification</string>
+    <string name="theme">Theme</string>
+    <string name="enable_theme">Enable or Disable Dark theme</string>
+    <string name="search_book">Search Books, Author</string>
+    <string name="settings">Settings</string>
+    <string name="share">Share</string>
+    <string name="share_it">Share this app with your friends</string>
+    <string name="rate">Rate it</string>
+    <string name="rate_it">Rate this app to 5 start</string>
+    <string name="privacy">Privacy Policy</string>
+    <string name="privacy_policy">Check our privacy policy</string>
+    <string name="about">About the App</string>
+    <string name="lean_about">Learn more about the app</string>
+    <string name="pro">Pro Version</string>
+    <string name="pro_verions">Download Ebooks, Remove Ads in the pro version</string>
+    <string name="noconnection">No internet Connection :(</string>
+    <string name="add_to_bookmark">Add Book to Bookmarks</string>
+
+    <string name="language">Language</string>
+    <string name="select_langauge">Select app langauge</string>
+    <string name="no_bookmark">No Bookmark found</string>
+    <string name="book_added">Book Added in Bookmark</string>
+    <string name="book_delete">Book Deleted in Bookmark</string>
+    <string name="delete_ing">Deleting Bookmark</string>
+    <string name="undo">UNDO</string>
+    <string name="delete_all">Delete All Bookmarks</string>
+
+
+    <string-array name="appSettingsLanguageListArray">
+        <item>English</item>
+        <item>Bangla</item>
+    </string-array>
+
+    <string-array name="appSettingsLanguageListValues">
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+</resources>

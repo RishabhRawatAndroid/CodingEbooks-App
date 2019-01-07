@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="WithoutActionBarTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimaryDark">@color/primary_white</item>
+        <item name="colorAccent">@color/progressbar_color</item>
+
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+</resources>
