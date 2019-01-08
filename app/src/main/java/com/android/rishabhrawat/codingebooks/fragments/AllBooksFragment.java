@@ -39,11 +39,6 @@ import java.util.ArrayList;
 
 public class AllBooksFragment extends Fragment implements ActivityListener {
 
-    private static final String ARG_PARAM1 = "param1_url";
-    private static final String ARG_PARAM2 = "param2_page";
-    private String mParam1_url;
-    private int mParam2_page;
-
     static BookViewModel bookViewModel;
 
 
@@ -53,7 +48,7 @@ public class AllBooksFragment extends Fragment implements ActivityListener {
     private ArrayList<Books> booksArrayList;
     private Books books;
     private LinearLayoutManager llm;
-    private static int page = 1;
+    private static int page = 3;
     private boolean scrolled = false;
     private int currentItem, scrolledItem, totalItem;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -62,31 +57,11 @@ public class AllBooksFragment extends Fragment implements ActivityListener {
     private static boolean showshimmer = false;
     private static boolean firsttime = false;
     private static boolean scrollprogress = false;
-
-    // private OnFragmentInteractionListener mListener;
+    MyAsynckTask task;
 
     public AllBooksFragment() {
         // Required empty public constructor
     }
-
-//    public static AllBooksFragment newInstance(String url, int page) {
-//        AllBooksFragment fragment = new AllBooksFragment();
-//        Bundle args = new Bundle();
-//        args.putString(ARG_PARAM1, url);
-//        args.putInt(ARG_PARAM2, page);
-//        fragment.setArguments(args);
-//        return fragment;
-//    }
-//
-//    @Override
-//    public void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        if (getArguments() != null) {
-//            mParam1_url = getArguments().getString(ARG_PARAM1);
-//            mParam2_page = getArguments().getInt(ARG_PARAM2);
-//        }
-//    }
-
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -116,7 +91,7 @@ public class AllBooksFragment extends Fragment implements ActivityListener {
         } else if (isOnline() && BooksList.getBooksArrayList() == null) {
             showshimmer = true;
             booksArrayList = new ArrayList<>();
-            MyAsynckTask task = new MyAsynckTask(getActivity());
+            task = new MyAsynckTask(getActivity());
             task.execute("http://www.allitebooks.com/page/" + page + "/");
             setAdapter();
         } else if (isOnline() && BooksList.getBooksArrayList() != null) {
@@ -171,7 +146,8 @@ public class AllBooksFragment extends Fragment implements ActivityListener {
                         page = page + 1;
                         Log.d("Rishabh", "Pages is the " + page);
                         scrollprogress = true;
-                        new MyAsynckTask(getActivity()).execute("http://www.allitebooks.com/page/" + page + "/");
+                        task = new MyAsynckTask(getActivity());
+                        task.execute("http://www.allitebooks.com/page/" + page + "/");
                     }
                 }
 
@@ -190,9 +166,9 @@ public class AllBooksFragment extends Fragment implements ActivityListener {
                     showshimmer = true;
                     shimmerFrameLayout.setVisibility(View.VISIBLE);
                     Log.d("RishabhRawat", "refresh call isonline");
-                    MyAsynckTask task = new MyAsynckTask(getActivity());
-                    page=1;
-                    task.execute("http://www.allitebooks.com/page/1/");
+                    MyAsynckTask mytask = new MyAsynckTask(getActivity());
+                    page = 1;
+                    mytask.execute("http://www.allitebooks.com/page/3/");
                     setAdapter();
                     swipeRefreshLayout.setRefreshing(false);
                 } else {
@@ -236,21 +212,20 @@ public class AllBooksFragment extends Fragment implements ActivityListener {
             Log.d("RishabhRawat", "Internet up");
             booksArrayList = new ArrayList<>();
             showshimmer = true;
-            MyAsynckTask task = new MyAsynckTask(getActivity());
-            task.execute("http://www.allitebooks.com/page/1/");
+            task = new MyAsynckTask(getActivity());
+            task.execute("http://www.allitebooks.com/page/3/");
             setAdapter();
             firsttime = false;
         }
     }
 
-    public static void insert(BookEntity bookEntity)
-    {
+    public static void insert(BookEntity bookEntity) {
         bookViewModel.insert(bookEntity);
 
     }
 
 
-    class MyAsynckTask extends AsyncTask<String, Void, Void> {
+    class MyAsynckTask extends AsyncTask<String, Void, Boolean> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -268,7 +243,7 @@ public class AllBooksFragment extends Fragment implements ActivityListener {
         }
 
         @Override
-        protected Void doInBackground(String... strings) {
+        protected Boolean doInBackground(String... strings) {
             try {
                 final Document document = Jsoup.connect(strings[0]).get();
                 Elements mElementDataSize = document.select("div[class=main-content-inner clearfix]");
@@ -288,21 +263,23 @@ public class AllBooksFragment extends Fragment implements ActivityListener {
                         booksArrayList.add(books);
                     }
                 }
-            } catch (IOException e) {
+                return false;
+            } catch (Exception e) {
                 e.printStackTrace();
+                return true;
             }
-            return null;
         }
 
         @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            //
-            if (booksAdapter != null) {
-                booksAdapter.notifyDataSetChanged();
-                BooksList.setBooksArrayList(booksArrayList);
-            }
-            //this means refresh the data again from the isonline check in onrefresh method in refresh listener
+        protected void onPostExecute(Boolean value) {
+            super.onPostExecute(value);
+            if (value == false) {
+                //
+                if (booksAdapter != null) {
+                    booksAdapter.notifyDataSetChanged();
+                    BooksList.setBooksArrayList(booksArrayList);
+                }
+                //this means refresh the data again from the isonline check in onrefresh method in refresh listener
 //            if (isrefreshing) {
 //                Log.d("RishabhRawat", "is refreshing async");
 //                booksAdapter = new BooksAdapter(booksArrayList, getActivity());
@@ -314,31 +291,35 @@ public class AllBooksFragment extends Fragment implements ActivityListener {
 //            }
 
 
-            // progressBar.setVisibility(View.INVISIBLE);
-            if (showshimmer) {
-                Log.d("RishabhRawat", "show simmer async");
-                shimmerFrameLayout.stopShimmer();
-                shimmerFrameLayout.setVisibility(View.GONE);
-                showshimmer = false;
+                // progressBar.setVisibility(View.INVISIBLE);
+                if (showshimmer) {
+                    Log.d("RishabhRawat", "show simmer async");
+                    shimmerFrameLayout.stopShimmer();
+                    shimmerFrameLayout.setVisibility(View.GONE);
+                    showshimmer = false;
+                }
+
+                //suppose the server allitebook website is down in any causes which means bookArrayList is empty( on background in async task the IO exception call which means the bookArrayList will be null or empty)
+                if (booksArrayList.isEmpty()) {
+                    shimmerFrameLayout.setVisibility(View.VISIBLE);
+                    shimmerFrameLayout.startShimmer();
+                }
+
+                if (scrollprogress) {
+                    swipeRefreshLayout.setRefreshing(false);
+                    swipeRefreshLayout.setProgressBackgroundColorSchemeColor(getResources().getColor(R.color.white));
+                    scrollprogress = false;
+                }
+            } else {
+
             }
-
-            //suppose the server allitebook website is down in any causes which means bookArrayList is empty( on background in async task the IO exception call which means the bookArrayList will be null or empty)
-            if (booksArrayList.isEmpty()) {
-                shimmerFrameLayout.setVisibility(View.VISIBLE);
-                shimmerFrameLayout.startShimmer();
-            }
-
-            if (scrollprogress) {
-                swipeRefreshLayout.setRefreshing(false);
-                swipeRefreshLayout.setProgressBackgroundColorSchemeColor(getResources().getColor(R.color.white));
-                scrollprogress = false;
-            }
-
-
         }
-
-
-
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (task != null)
+            task.cancel(true);
+    }
 }

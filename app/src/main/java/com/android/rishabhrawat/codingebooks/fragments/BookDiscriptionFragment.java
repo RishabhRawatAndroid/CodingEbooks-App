@@ -138,10 +138,10 @@ public class BookDiscriptionFragment extends Fragment {
         book_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BookEntity entity = new BookEntity(getArguments().getString(NAME),
-                        getArguments().getString(IMAGE), getArguments().getString(BOOK_DETAIL), getArguments().getString(URL));
-                bookViewModel.insert(entity);
-                Toast.makeText(getActivity(), getResources().getString(R.string.book_added), Toast.LENGTH_SHORT).show();
+                    BookEntity entity = new BookEntity(getArguments().getString(NAME),
+                            getArguments().getString(IMAGE), getArguments().getString(BOOK_DETAIL), getArguments().getString(URL));
+                    bookViewModel.insert(entity);
+                    Toast.makeText(getActivity(), getResources().getString(R.string.book_added), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -359,6 +359,7 @@ public class BookDiscriptionFragment extends Fragment {
             }
 
         }
+
 
 
         Elements melement = document.select("div[class=entry-content] > *");

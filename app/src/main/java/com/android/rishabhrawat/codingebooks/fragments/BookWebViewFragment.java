@@ -1,31 +1,32 @@
 package com.android.rishabhrawat.codingebooks.fragments;
 
-import android.content.Context;
-import android.content.Intent;
+import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.util.Log;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.rishabhrawat.codingebooks.R;
 
-import java.net.URL;
-
+@SuppressLint("SetJavaScriptEnabled")
 public class BookWebViewFragment extends Fragment {
 
     private static final String BOOK_URL = "book_url";
-    private static final String BOOK_NAME="book_name";
+    private static final String BOOK_NAME = "book_name";
     private String PDF_LINK;
     private String Book_name;
 
@@ -36,17 +37,19 @@ public class BookWebViewFragment extends Fragment {
     private ProgressBar progressBar;
     private StringBuffer buffer;
     private boolean loaded = true;
+    private RelativeLayout webviewlayout;
+    private CardView cardView;
 
 
     public BookWebViewFragment() {
         // Required empty public constructor
     }
 
-    public static BookWebViewFragment newInstance(String param1,String param2) {
+    public static BookWebViewFragment newInstance(String param1, String param2) {
         BookWebViewFragment fragment = new BookWebViewFragment();
         Bundle args = new Bundle();
         args.putString(BOOK_URL, param1);
-        args.putString(BOOK_NAME,param2);
+        args.putString(BOOK_NAME, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -56,20 +59,23 @@ public class BookWebViewFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             PDF_LINK = getArguments().getString(BOOK_URL);
-            Book_name=getArguments().getString(BOOK_NAME);
+            Book_name = getArguments().getString(BOOK_NAME);
         }
+
+
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, @NonNull  ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_book_web_view, container, false);
         pdf_webView = view.findViewById(R.id.pdf_webView);
         progressBar = view.findViewById(R.id.pdf_webView_progressbar);
-        toolbar_book_name=view.findViewById(R.id.book_webview_toolbar_text);
-        back_btn=view.findViewById(R.id.book_webview_clode_img);
-
-
+        toolbar_book_name = view.findViewById(R.id.book_webview_toolbar_text);
+        back_btn = view.findViewById(R.id.book_webview_clode_img);
+        // constraintLayout=view.findViewById(R.id.webview_inside_layout);
+        webviewlayout = view.findViewById(R.id.webview_layout);
+        cardView = view.findViewById(R.id.book_webview_toolbar_card);
         toolbar_book_name.setText(Book_name);
 
         back_btn.setOnClickListener(new View.OnClickListener() {
@@ -79,7 +85,6 @@ public class BookWebViewFragment extends Fragment {
             }
         });
 
-        pdf_webView.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
 
         pdf_webView.getSettings().setJavaScriptEnabled(true);
@@ -99,6 +104,7 @@ public class BookWebViewFragment extends Fragment {
         pdf_webView.setWebViewClient(new Callback());
         pdf_webView.getSettings().setBuiltInZoomControls(true);
 
+
         WebSettings webSettings = pdf_webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webSettings.setDomStorageEnabled(true);
@@ -106,6 +112,10 @@ public class BookWebViewFragment extends Fragment {
         webSettings.setUseWideViewPort(true);
         webSettings.setBuiltInZoomControls(true);
         webSettings.setDisplayZoomControls(false);
+        webSettings.setRenderPriority(WebSettings.RenderPriority.HIGH);
+        webSettings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+        webSettings.setSaveFormData(true);
+        webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
         //webSettings.setSupportZoom(true);
         webSettings.setDefaultTextEncodingName("utf-8");
 
@@ -117,23 +127,49 @@ public class BookWebViewFragment extends Fragment {
         });
 
 
+//        ReactiveNetwork
+//                .observeNetworkConnectivity(getActivity())
+//                .subscribeOn(Schedulers.io())
+//                .filter(ConnectivityPredicate.hasState(NetworkInfo.State.CONNECTED))
+//                .filter(ConnectivityPredicate.hasType(ConnectivityManager.TYPE_WIFI))
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Consumer<Connectivity>() {
+//                    @Override
+//                    public void accept(Connectivity connectivity) {
+//                        if (connectivity.state() == NetworkInfo.State.CONNECTED || connectivity.state() == NetworkInfo.State.CONNECTING) {
+//                            Log.d("RishabhInternet","Internet connected");
+//
+//                            pdf_webView.loadUrl("http://docs.google.com/gview?embedded=true&url=" + buffer.toString());
+//                        } else if(connectivity.state() == NetworkInfo.State.DISCONNECTED || connectivity.state() == NetworkInfo.State.DISCONNECTING){
+//                            Log.d("RishabhInternet","Internet DOWN");
+//                        }
+//
+//                    }
+//                });
+
         pdf_webView.loadUrl("http://docs.google.com/gview?embedded=true&url=" + buffer.toString());
         //pdf_webView.loadUrl("http://drive.google.com/viewerng/viewer?embedded=true&url="+buffer.toString());
-
-
-        Log.d("Rishabh", "FULL LINK IS THE " + buffer.toString());
-
 
         return view;
     }
 
     private class Callback extends WebViewClient {
         @Override
+        public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+            super.onReceivedError(view, request, error);
+        }
+
+        @Override
+        public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+            pdf_webView.loadUrl("file:///android_asset/network_error.html");
+            super.onReceivedError(view, errorCode, description, failingUrl);
+        }
+
+        @Override
         public void onPageFinished(WebView view, String url) {
 
             injectCSS();
             // super.onPageFinished(view, url);
-            pdf_webView.setVisibility(View.VISIBLE);
             progressBar.setVisibility(View.GONE);
             pdf_webView.loadUrl("javascript:window.HtmlViewer.showHTML" +
                     "('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>');");
@@ -161,7 +197,7 @@ public class BookWebViewFragment extends Fragment {
             try {
                 pdf_webView.loadUrl("javascript:(function(){" +
                         "var node = document.createElement('style');\n" +
-                        "    node.innerHTML = 'a.ndfHFb-c4YZDc-cYSp0e-DARUcf-hSRGPd[href*=\"http://www.allitebooks.org\"]{background-color: white;}.ndfHFb-c4YZDc-q77wGc{top:1%}';\n" +
+                        "    node.innerHTML = 'a.ndfHFb-c4YZDc-cYSp0e-DARUcf-hSRGPd[href*=\"http://www.allitebooks.org\"]{background-color: white;}.ndfHFb-c4YZDc-q77wGc{top:1%}.ndfHFb-c4YZDc-Wrql6b{visibility: hidden;}';\n" +
                         "    document.body.appendChild(node);" +
                         "})()");
             } catch (Exception e) {
