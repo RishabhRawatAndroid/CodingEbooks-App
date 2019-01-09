@@ -45,16 +45,17 @@ import io.reactivex.schedulers.Schedulers;
 
 public class BookSearchResultFragment extends Fragment {
     private static final String ARG_PARAM1 = "searchURL";
-    private static final String ARG_PARAM2="searchNAME";
+    private static final String ARG_PARAM2 = "searchNAME";
 
     private String search_url;
     private String search_name;
 
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private BooksAdapter booksAdapter;
+    private static BooksAdapter booksAdapter;
     static BookViewModel bookViewModel;
-    private ArrayList<Books> booksArrayList;
+    private ArrayList<Books> booksArrayList = new ArrayList<>();
+    ;
     private LinearLayoutManager llm;
     private Books books;
     private ImageView imageView;
@@ -66,14 +67,15 @@ public class BookSearchResultFragment extends Fragment {
     private TextView textView;
     private int currentItem, scrolledItem, totalItem;
     private boolean scrolled = false;
+    static String localurl;
 
     private Disposable disposable;
 
-    public static BookSearchResultFragment newInstance(String param1,String param2) {
+    public static BookSearchResultFragment newInstance(String param1, String param2) {
         BookSearchResultFragment fragment = new BookSearchResultFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2,param2);
+        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -83,7 +85,7 @@ public class BookSearchResultFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             search_url = getArguments().getString(ARG_PARAM1);
-            search_name=getArguments().getString(ARG_PARAM2);
+            search_name = getArguments().getString(ARG_PARAM2);
         }
         bookViewModel = new BookViewModel(getActivity().getApplication());
     }
@@ -93,15 +95,15 @@ public class BookSearchResultFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_book_search_result, container, false);
-        ((BottomNavigationActivity)getActivity()).toolbar_text.setText("  "+search_name);
+        ((BottomNavigationActivity) getActivity()).toolbar_text.setText("  " + search_name);
 
         recyclerView = view.findViewById(R.id.search_result_recyclerview);
         swipeRefreshLayout = view.findViewById(R.id.search_result_swipelayout);
         imageView = view.findViewById(R.id.lost_connection_search_result);
         not_found = view.findViewById(R.id.not_found_search_result);
         textView = view.findViewById(R.id.error_text_search_result);
-        not_found_text=view.findViewById(R.id.not_fount_text);
-        relativeLayout=view.findViewById(R.id.search_result_layout);
+        not_found_text = view.findViewById(R.id.not_fount_text);
+        relativeLayout = view.findViewById(R.id.search_result_layout);
 
         imageView.setVisibility(View.GONE);
         textView.setVisibility(View.GONE);
@@ -111,18 +113,24 @@ public class BookSearchResultFragment extends Fragment {
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.tabitem3), getResources().getColor(R.color.tabitem2), getResources().getColor(R.color.tabitem1), getResources().getColor(R.color.colorAccent));
         swipeRefreshLayout.setProgressBackgroundColorSchemeColor(getResources().getColor(R.color.dracula));
 
-        booksArrayList = new ArrayList<>();
+        if (booksArrayList.isEmpty()) {
+            localurl=search_url;
+            RUN_ASYNK_TASK(search_url);
+        }
+
+        //booksArrayList = new ArrayList<>();
         booksAdapter = new BooksAdapter(booksArrayList, getActivity(), BookSearchResultFragment.this);
         recyclerView.setAdapter(booksAdapter);
         llm = new LinearLayoutManager(getActivity());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(llm);
-        RUN_ASYNK_TASK(search_url);
 
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                booksArrayList.clear();
+                localurl=search_url;
                 RUN_ASYNK_TASK(search_url);
             }
         });
@@ -147,16 +155,12 @@ public class BookSearchResultFragment extends Fragment {
                     totalItem = llm.getItemCount();
                     scrolledItem = llm.findFirstVisibleItemPosition();
                     //scrolled item represents the current postion of the recyclerview
-                    BooksList.setPosition(scrolledItem);
 
                     if (scrolled && (currentItem + scrolledItem >= totalItem)) {
                         scrolled = false;
-//                        page = page + 1;
-//                        Log.d("Rishabh", "Pages is the " + page);
-//                        scrollprogress = true;
-//                        task = new AllBooksFragment.MyAsynckTask(getActivity());
-//                        task.execute("http://www.allitebooks.com/page/" + page + "/");
-
+                        localurl=convertURL(localurl);
+                        Log.d("RishabhRX",localurl);
+                        RUN_ASYNK_TASK(convertURL(localurl));
 
                     }
                 }
@@ -221,6 +225,7 @@ public class BookSearchResultFragment extends Fragment {
 
             @Override
             public void onNext(ArrayList<Books> books) {
+                //which means data successfully Arrive
                 if (!books.isEmpty()) {
                     recyclerView.setVisibility(View.VISIBLE);
                     imageView.setVisibility(View.GONE);
@@ -230,23 +235,30 @@ public class BookSearchResultFragment extends Fragment {
                     booksArrayList.addAll(books);
                     booksAdapter.notifyDataSetChanged();
                 }
+                //if books not found then its show
                 if (books.size() == 0 && booksArrayList.isEmpty()) {
                     not_found.setVisibility(View.VISIBLE);
                     not_found_text.setVisibility(View.VISIBLE);
                     relativeLayout.setBackgroundColor(getResources().getColor(R.color.not_found_color));
                 }
+                else if(books.size()==0)
+                {
+                 swipeRefreshLayout.setRefreshing(false);
+                }
             }
 
             @Override
             public void onError(Throwable e) {
+                swipeRefreshLayout.setRefreshing(false);
                 if (booksArrayList.isEmpty()) {
                     recyclerView.setVisibility(View.GONE);
                     imageView.setVisibility(View.VISIBLE);
                     textView.setVisibility(View.VISIBLE);
                     relativeLayout.setBackgroundColor(getResources().getColor(R.color.white));
                     swipeRefreshLayout.setRefreshing(false);
-
                 }
+
+
             }
 
             @Override
@@ -256,9 +268,21 @@ public class BookSearchResultFragment extends Fragment {
         });
     }
 
+    private String convertURL(String string) {
+        int value = Integer.parseInt(string.replaceAll("[^0-9]", ""));
+        int page = value + 1;
+
+        char last = String.valueOf(value).charAt(String.valueOf(value).length() - 1);
+        int startindex = string.indexOf(String.valueOf(value));
+        int lastindex = string.lastIndexOf(String.valueOf(last));
+
+         return string.substring(0, startindex) + page + string.substring(lastindex + 1, string.length());
+    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
+        booksArrayList = null;
         disposable.dispose();
     }
 }
