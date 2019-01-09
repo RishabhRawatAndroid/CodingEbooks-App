@@ -32,6 +32,8 @@
                 android:fontFamily="@font/abeezee"
                 android:text="@string/coding_ebooks"
                 android:textSize="18sp"
+                android:ellipsize="end"
+                android:maxLines="1"
                 android:textStyle="bold"
                 android:textColor="@android:color/black"></TextView>
 

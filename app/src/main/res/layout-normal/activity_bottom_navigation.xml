@@ -30,6 +30,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:textSize="18sp"
+                android:ellipsize="end"
+                android:maxLines="1"
                 android:textStyle="bold"
                 android:fontFamily="@font/abeezee"
                 android:text="@string/coding_ebooks"

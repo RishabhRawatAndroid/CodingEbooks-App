@@ -85,7 +85,7 @@ public class BooksCategoriesAdapter extends RecyclerView.Adapter<BooksCategories
 
         @Override
         protected Void doInBackground(ArrayList<CategoriesBooks>... arrayLists) {
-            adapter = new BooksCategoriesItemAdapter(arrayLists[0]);
+            adapter = new BooksCategoriesItemAdapter(arrayLists[0],context);
             return null;
         }
 

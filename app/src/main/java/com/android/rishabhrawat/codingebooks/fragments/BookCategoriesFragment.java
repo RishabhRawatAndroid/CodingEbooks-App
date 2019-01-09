@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.android.rishabhrawat.codingebooks.R;
+import com.android.rishabhrawat.codingebooks.activities.BottomNavigationActivity;
 import com.android.rishabhrawat.codingebooks.generalclasses.BooksCategoriesAdapter;
 import com.android.rishabhrawat.codingebooks.modelclasses.CategoriesBooks;
 import com.android.rishabhrawat.codingebooks.modelclasses.CategoriesTypeBooks;
@@ -259,6 +260,7 @@ public class BookCategoriesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_book_categories, container, false);
+        ((BottomNavigationActivity) getActivity()).toolbar_text.setText("  " + getResources().getString(R.string.app_name));
 //
 //        initializeData();
         categories_vertical_recyclerview = view.findViewById(R.id.vertical_recyclerview);

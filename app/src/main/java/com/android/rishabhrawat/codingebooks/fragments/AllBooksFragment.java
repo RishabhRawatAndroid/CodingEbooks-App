@@ -78,7 +78,7 @@ public class AllBooksFragment extends Fragment implements ActivityListener {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_all_books, container, false);
-
+        ((BottomNavigationActivity) getActivity()).toolbar_text.setText("  " + getResources().getString(R.string.app_name));
         // booksArrayList = new ArrayList<>();
         recyclerView = view.findViewById(R.id.my_recycler_view);
         swipeRefreshLayout = view.findViewById(R.id.swiperefresh);
@@ -322,4 +322,6 @@ public class AllBooksFragment extends Fragment implements ActivityListener {
         if (task != null)
             task.cancel(true);
     }
+
+
 }

@@ -43,5 +43,7 @@
     <color name="dracula1">#676565</color>
     <color name="placeholder_color">#dddddd</color>
 
+    <color name="not_found_color">#EFF4FA</color>
+
 
 </resources>

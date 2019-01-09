@@ -8,15 +8,19 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.android.rishabhrawat.codingebooks.R;
+import com.android.rishabhrawat.codingebooks.activities.BottomNavigationActivity;
 import com.android.rishabhrawat.codingebooks.generalclasses.SearchRecyclerViewAdapter;
 
 import java.util.ArrayList;
@@ -88,7 +92,7 @@ public class SearchBookFragment extends Fragment {
         LinearLayoutManager manager = new LinearLayoutManager(getActivity().getApplicationContext());
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         search_recyclerview.setLayoutManager(manager);
-        searchRecyclerViewAdapter = new SearchRecyclerViewAdapter(getActivity().getApplicationContext(), getbookname());
+        searchRecyclerViewAdapter = new SearchRecyclerViewAdapter(getActivity(), getbookname());
         search_recyclerview.setAdapter(searchRecyclerViewAdapter);
         search_recyclerview.setVisibility(View.INVISIBLE);
 
@@ -116,9 +120,22 @@ public class SearchBookFragment extends Fragment {
             }
         });
 
+        editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    String local = "http://www.allitebooks.com/page/1/?s=";
+                    imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+                    getFragmentManager().popBackStack();
+                    ((BottomNavigationActivity) getActivity()).open_search_result_fragment(local + editText.getText().toString().trim(),editText.getText().toString().trim());
+                    return true;
+                }
+                return false;
+            }
+        });
+
         return view;
     }
-
 
     private List<String> getbookname() {
         search_item_list = new ArrayList<>();
@@ -169,7 +186,8 @@ public class SearchBookFragment extends Fragment {
         search_item_list.add("Flux");
         search_item_list.add("RXJS");
         search_item_list.add("backbone.js");
-        search_item_list.add("AmazonAWS");
+        search_item_list.add("AWS");
+        search_item_list.add("Amazon");
         search_item_list.add("JQuery");
         search_item_list.add("Regular Expression");
         search_item_list.add("object Oriented Javscript");

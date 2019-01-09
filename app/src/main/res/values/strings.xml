@@ -55,6 +55,7 @@
     <string name="undo">UNDO</string>
     <string name="delete_all">Delete All Bookmarks</string>
     <string name="some_thing_wrong">OOPS Something went wrong!!! Slow Internet Connection or Network Error...</string>
+    <string name="not_found">We could not found any books that you have search</string>
 
 
     <string-array name="appSettingsLanguageListArray">

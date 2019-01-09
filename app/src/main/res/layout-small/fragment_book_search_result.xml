@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/search_result_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.BookSearchResultFragment">
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/search_result_swipelayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/search_result_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+
+    <ImageView
+        android:id="@+id/lost_connection_search_result"
+        android:layout_width="70dp"
+        android:layout_height="49dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="51dp"
+        android:src="@drawable/no_connection" />
+
+    <TextView
+        android:id="@+id/error_text_search_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lost_connection_search_result"
+        android:layout_margin="10dp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="@font/abeezee"
+        android:text="@string/some_thing_wrong"
+        android:textAlignment="center"
+        android:textColor="@color/dark_gray"
+        android:textSize="10sp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/not_found_search_result"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/founderror" />
+
+    <TextView
+        android:id="@+id/not_fount_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/not_found_search_result"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="10dp"
+        android:fontFamily="@font/baloo_chettan"
+        android:text="@string/not_found"
+        android:textAlignment="center"
+        android:textSize="10sp" />
+
+</RelativeLayout>

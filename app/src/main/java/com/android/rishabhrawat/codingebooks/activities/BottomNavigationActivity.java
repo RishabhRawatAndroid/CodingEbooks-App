@@ -21,12 +21,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.android.rishabhrawat.codingebooks.R;
 import com.android.rishabhrawat.codingebooks.broadcast_reciever.InternetChecker;
 import com.android.rishabhrawat.codingebooks.fragments.AllBooksFragment;
 import com.android.rishabhrawat.codingebooks.fragments.BookCategoriesFragment;
+import com.android.rishabhrawat.codingebooks.fragments.BookSearchResultFragment;
 import com.android.rishabhrawat.codingebooks.fragments.BooksBookMarkFragment;
 import com.android.rishabhrawat.codingebooks.fragments.SearchBookFragment;
 import com.android.rishabhrawat.codingebooks.fragments.SettingsFragment;
@@ -45,6 +47,7 @@ public class BottomNavigationActivity extends AppCompatActivity implements Netwo
     private static View view;
     private static Context context;
     private static Fragment myfragment;
+    public TextView toolbar_text;
 
     public ActivityListener activityListener;
     int state;
@@ -57,6 +60,7 @@ public class BottomNavigationActivity extends AppCompatActivity implements Netwo
         setContentView(R.layout.activity_bottom_navigation);
 
         toolbar = findViewById(R.id.toolbar);
+        toolbar_text=findViewById(R.id.toolbar_title);
         bottomNavigationView = findViewById(R.id.navigation);
         bottomNavigationView.setBackgroundColor(getResources().getColor(R.color.tabitem1));
 
@@ -193,6 +197,18 @@ public class BottomNavigationActivity extends AppCompatActivity implements Netwo
             }
         }, 300);
         view.setBackgroundColor(context.getResources().getColor(R.color.dracula1));
+
+    }
+
+    public void open_search_result_fragment(String URL,String NAME)
+    {
+        //Now open the all book fragment and hide the action bar
+        Fragment searchFragment=new BookSearchResultFragment().newInstance(URL,NAME);
+        FragmentTransaction transaction=getSupportFragmentManager().beginTransaction();
+      //  Toast.makeText(context, "DATA IS THE "+URL, Toast.LENGTH_SHORT).show();
+        transaction.replace(R.id.frame_container, searchFragment);
+        transaction.addToBackStack("search_result");
+        transaction.commit();
 
     }
 

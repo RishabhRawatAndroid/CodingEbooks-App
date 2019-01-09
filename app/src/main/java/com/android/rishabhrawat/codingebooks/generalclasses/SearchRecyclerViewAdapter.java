@@ -2,16 +2,19 @@ package com.android.rishabhrawat.codingebooks.generalclasses;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.rishabhrawat.codingebooks.R;
+import com.android.rishabhrawat.codingebooks.activities.BottomNavigationActivity;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -54,12 +57,26 @@ public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<SearchRecycl
 
         ImageView imageView;
         TextView textView;
+        ConstraintLayout search_item_card;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
             imageView = itemView.findViewById(R.id.search_img);
             textView = itemView.findViewById(R.id.search_text);
+            search_item_card=itemView.findViewById(R.id.search_item_card);
+
+            search_item_card.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String local="http://www.allitebooks.com/page/1/?s=";
+                    InputMethodManager imm;
+                    imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+                    ((BottomNavigationActivity)context).getSupportFragmentManager().popBackStack();
+                    ((BottomNavigationActivity) context).open_search_result_fragment(local+search_list.get(getAdapterPosition()),search_list.get(getAdapterPosition()));
+                }
+            });
         }
     }
 

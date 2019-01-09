@@ -77,6 +77,7 @@ public class BooksBookMarkFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_books_book_mark, container, false);
+        ((BottomNavigationActivity) getActivity()).toolbar_text.setText("  " + getResources().getString(R.string.app_name));
         recyclerView = view.findViewById(R.id.bookmark_recyclerview);
         imageView = view.findViewById(R.id.bookmark_image);
         text = view.findViewById(R.id.bookmark_text);
