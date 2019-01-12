@@ -31,10 +31,14 @@ import com.android.rishabhrawat.codingebooks.fragments.BookSearchResultFragment;
 import com.android.rishabhrawat.codingebooks.fragments.BooksBookMarkFragment;
 import com.android.rishabhrawat.codingebooks.fragments.SearchBookFragment;
 import com.android.rishabhrawat.codingebooks.fragments.SettingsFragment;
+import com.android.rishabhrawat.codingebooks.generalclasses.AdViewBehaviour;
 import com.android.rishabhrawat.codingebooks.generalclasses.BottomNavigationBehaviour;
 import com.android.rishabhrawat.codingebooks.interfaces.ActivityListener;
 import com.github.pwittchen.reactivenetwork.library.rx2.Connectivity;
 import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
@@ -52,6 +56,7 @@ public class BottomNavigationActivity extends AppCompatActivity  {
     private static Context context;
     private static Fragment myfragment;
     public TextView toolbar_text;
+    private AdView mAdView;
 
     public ActivityListener activityListener;
     int state;
@@ -76,6 +81,11 @@ public class BottomNavigationActivity extends AppCompatActivity  {
         tv.setTextColor(getResources().getColor(R.color.tabitem2));
         internet_status();
 
+//
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+//
 
         context = BottomNavigationActivity.this;
 
@@ -145,6 +155,10 @@ public class BottomNavigationActivity extends AppCompatActivity  {
 
         CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) bottomNavigationView.getLayoutParams();
         layoutParams.setBehavior(new BottomNavigationBehaviour());
+
+        CoordinatorLayout.LayoutParams layoutParams1 = (CoordinatorLayout.LayoutParams) mAdView.getLayoutParams();
+        layoutParams1.setBehavior(new AdViewBehaviour());
+
 
     }
 

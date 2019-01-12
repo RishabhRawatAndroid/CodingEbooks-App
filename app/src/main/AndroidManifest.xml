@@ -28,6 +28,10 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-8451532053051726~9189553565"/>
+
         <activity
             android:name=".activities.WelcomeViewPagerActivity"
             android:theme="@style/AppTheme.NoActionBar" />

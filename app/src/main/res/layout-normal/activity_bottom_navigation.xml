@@ -30,12 +30,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:textSize="18sp"
+                android:textStyle="bold"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:textStyle="bold"
                 android:fontFamily="@font/abeezee"
                 android:text="@string/coding_ebooks"
-                android:textColor="@color/black"></TextView>
+                android:textColor="@android:color/black"></TextView>
 
         </android.support.v7.widget.Toolbar>
 
@@ -52,11 +52,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
+            android:background="@color/sky"
+            android:foreground="?attr/selectableItemBackground"
             app:elevation="8dp"
-            android:background="?attr/selectableItemBackground"
-            app:itemIconTint="@color/bottom_navigation_state"
-            app:itemTextColor="@color/bottom_navigation_state"
+            app:itemIconTint="@drawable/selector_bottom_bar"
+            app:itemTextColor="@drawable/selector_bottom_bar"
             app:menu="@menu/bottom_naviagtion_items" />
+
+        <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/adView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            ads:adSize="BANNER"
+            android:layout_gravity="top|center"
+            app:layout_anchor="@+id/navigation"
+            ads:adUnitId="ca-app-pub-3940256099942544/6300978111"
+            app:layout_anchorGravity="center|top"></com.google.android.gms.ads.AdView>
 
     </android.support.design.widget.CoordinatorLayout>
 </FrameLayout>
