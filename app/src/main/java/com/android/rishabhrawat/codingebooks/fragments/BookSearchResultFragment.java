@@ -74,7 +74,16 @@ public class BookSearchResultFragment extends Fragment {
     public static BookSearchResultFragment newInstance(String param1, String param2) {
         BookSearchResultFragment fragment = new BookSearchResultFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
+
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i <= param1.length() - 1; i++) {
+            if (param1.charAt(i) == ' ')
+                stringBuilder.append("+");
+            else
+                stringBuilder.append(param1.charAt(i));
+        }
+
+        args.putString(ARG_PARAM1, stringBuilder.toString());
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
@@ -114,7 +123,7 @@ public class BookSearchResultFragment extends Fragment {
         swipeRefreshLayout.setProgressBackgroundColorSchemeColor(getResources().getColor(R.color.dracula));
 
         if (booksArrayList.isEmpty()) {
-            localurl=search_url;
+            localurl = search_url;
             RUN_ASYNK_TASK(search_url);
         }
 
@@ -130,7 +139,7 @@ public class BookSearchResultFragment extends Fragment {
             @Override
             public void onRefresh() {
                 booksArrayList.clear();
-                localurl=search_url;
+                localurl = search_url;
                 RUN_ASYNK_TASK(search_url);
             }
         });
@@ -158,8 +167,8 @@ public class BookSearchResultFragment extends Fragment {
 
                     if (scrolled && (currentItem + scrolledItem >= totalItem)) {
                         scrolled = false;
-                        localurl=convertURL(localurl);
-                        Log.d("RishabhRX",localurl);
+                        localurl = convertURL(localurl);
+                        Log.d("RishabhRX", localurl);
                         RUN_ASYNK_TASK(convertURL(localurl));
 
                     }
@@ -240,22 +249,23 @@ public class BookSearchResultFragment extends Fragment {
                     not_found.setVisibility(View.VISIBLE);
                     not_found_text.setVisibility(View.VISIBLE);
                     relativeLayout.setBackgroundColor(getResources().getColor(R.color.not_found_color));
-                }
-                else if(books.size()==0)
-                {
-                 swipeRefreshLayout.setRefreshing(false);
+                } else if (books.size() == 0) {
+                    swipeRefreshLayout.setRefreshing(false);
                 }
             }
 
             @Override
             public void onError(Throwable e) {
-                swipeRefreshLayout.setRefreshing(false);
-                if (booksArrayList.isEmpty()) {
-                    recyclerView.setVisibility(View.GONE);
-                    imageView.setVisibility(View.VISIBLE);
-                    textView.setVisibility(View.VISIBLE);
-                    relativeLayout.setBackgroundColor(getResources().getColor(R.color.white));
+                if (swipeRefreshLayout != null)
                     swipeRefreshLayout.setRefreshing(false);
+                if (booksArrayList != null) {
+                    if (booksArrayList.isEmpty()) {
+                        recyclerView.setVisibility(View.GONE);
+                        imageView.setVisibility(View.VISIBLE);
+                        textView.setVisibility(View.VISIBLE);
+                        relativeLayout.setBackgroundColor(getResources().getColor(R.color.white));
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
                 }
 
 
@@ -276,7 +286,7 @@ public class BookSearchResultFragment extends Fragment {
         int startindex = string.indexOf(String.valueOf(value));
         int lastindex = string.lastIndexOf(String.valueOf(last));
 
-         return string.substring(0, startindex) + page + string.substring(lastindex + 1, string.length());
+        return string.substring(0, startindex) + page + string.substring(lastindex + 1, string.length());
     }
 
     @Override

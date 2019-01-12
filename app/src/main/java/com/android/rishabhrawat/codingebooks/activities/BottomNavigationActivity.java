@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -21,11 +22,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 import com.android.rishabhrawat.codingebooks.R;
-import com.android.rishabhrawat.codingebooks.broadcast_reciever.InternetChecker;
 import com.android.rishabhrawat.codingebooks.fragments.AllBooksFragment;
 import com.android.rishabhrawat.codingebooks.fragments.BookCategoriesFragment;
 import com.android.rishabhrawat.codingebooks.fragments.BookSearchResultFragment;
@@ -34,14 +33,19 @@ import com.android.rishabhrawat.codingebooks.fragments.SearchBookFragment;
 import com.android.rishabhrawat.codingebooks.fragments.SettingsFragment;
 import com.android.rishabhrawat.codingebooks.generalclasses.BottomNavigationBehaviour;
 import com.android.rishabhrawat.codingebooks.interfaces.ActivityListener;
-import com.android.rishabhrawat.codingebooks.interfaces.NetworkChangeListener;
+import com.github.pwittchen.reactivenetwork.library.rx2.Connectivity;
+import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork;
 
-public class BottomNavigationActivity extends AppCompatActivity implements NetworkChangeListener {
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
+
+public class BottomNavigationActivity extends AppCompatActivity  {
 
 
     private Toolbar toolbar;
     private static BottomNavigationView bottomNavigationView;
-    private InternetChecker checker;
+  //  private InternetChecker checker;
     private CoordinatorLayout coordinatorLayout;
     public static Snackbar snackbar;
     private static View view;
@@ -60,7 +64,7 @@ public class BottomNavigationActivity extends AppCompatActivity implements Netwo
         setContentView(R.layout.activity_bottom_navigation);
 
         toolbar = findViewById(R.id.toolbar);
-        toolbar_text=findViewById(R.id.toolbar_title);
+        toolbar_text = findViewById(R.id.toolbar_title);
         bottomNavigationView = findViewById(R.id.navigation);
         bottomNavigationView.setBackgroundColor(getResources().getColor(R.color.tabitem1));
 
@@ -70,13 +74,14 @@ public class BottomNavigationActivity extends AppCompatActivity implements Netwo
         view.setBackgroundColor(getResources().getColor(R.color.dracula));
         TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
         tv.setTextColor(getResources().getColor(R.color.tabitem2));
+        internet_status();
 
 
         context = BottomNavigationActivity.this;
 
-        checker = new InternetChecker(BottomNavigationActivity.this);
-        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
-        registerReceiver(checker, filter);
+//        checker = new InternetChecker(BottomNavigationActivity.this);
+//        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+//        registerReceiver(checker, filter);
 
         //setting up the toolbar setting
         setSupportActionBar(toolbar);
@@ -200,12 +205,11 @@ public class BottomNavigationActivity extends AppCompatActivity implements Netwo
 
     }
 
-    public void open_search_result_fragment(String URL,String NAME)
-    {
+    public void open_search_result_fragment(String URL, String NAME) {
         //Now open the all book fragment and hide the action bar
-        Fragment searchFragment=new BookSearchResultFragment().newInstance(URL,NAME);
-        FragmentTransaction transaction=getSupportFragmentManager().beginTransaction();
-      //  Toast.makeText(context, "DATA IS THE "+URL, Toast.LENGTH_SHORT).show();
+        Fragment searchFragment = new BookSearchResultFragment().newInstance(URL, NAME);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        //  Toast.makeText(context, "DATA IS THE "+URL, Toast.LENGTH_SHORT).show();
         transaction.replace(R.id.frame_container, searchFragment);
         transaction.addToBackStack("search_result");
         transaction.commit();
@@ -220,31 +224,48 @@ public class BottomNavigationActivity extends AppCompatActivity implements Netwo
 
 
     @Override
-    public void change_internet_connection(boolean isConnected) {
-        if (!isConnected) {
-            snackbar.show();
-            AllBooksFragment.isonline = false;
-        } else {
-            if (activityListener != null) {
-                activityListener.network_status(true);
-            }
-
-            if (snackbar.isShown()) {
-                AllBooksFragment.isonline = true;
-                snackbar.dismiss();
-            }
-        }
-    }
-
-    @Override
     protected void onDestroy() {
         super.onDestroy();
-        unregisterReceiver(checker);
+      //  unregisterReceiver(checker);
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putInt("save_state", state);
         super.onSaveInstanceState(outState);
+    }
+
+
+    private void internet_status() {
+        ReactiveNetwork
+                .observeNetworkConnectivity(this)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Connectivity>() {
+                    @Override
+                    public void accept(Connectivity connectivity) throws Exception {
+                        if (connectivity.state() == NetworkInfo.State.CONNECTED) {
+                            Log.d("RishabhRX", "INTERNET IS CONNECTED");
+                            if (activityListener != null) {
+                                activityListener.network_status(true);
+                            }
+
+                            if (snackbar.isShown()) {
+                                AllBooksFragment.isonline = true;
+                                snackbar.dismiss();
+                            }
+
+                            if (AllBooksFragment.swipeRefreshLayout != null) {
+                                if (AllBooksFragment.swipeRefreshLayout.isRefreshing())
+                                    AllBooksFragment.swipeRefreshLayout.setRefreshing(false);
+                            }
+                        }
+                        if (connectivity.state() == NetworkInfo.State.DISCONNECTED || connectivity.state() == NetworkInfo.State.DISCONNECTING) {
+                            Log.d("RishabhRX", "INTERNET IS DISSCONNECTED");
+                            snackbar.show();
+                            AllBooksFragment.isonline = false;
+                        }
+                    }
+                });
     }
 }

@@ -55,4 +55,7 @@ dependencies {
 
     implementation 'com.github.pwittchen:reactivenetwork-rx2:3.0.2'
 
+    //ADMOB
+    implementation 'com.google.android.gms:play-services-ads:17.1.1'
+
 }

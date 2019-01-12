@@ -36,18 +36,18 @@
             android:configChanges="orientation|screenSize"
             android:name=".activities.BottomNavigationActivity" />
 
-        <receiver
-            android:name=".broadcast_reciever.InternetChecker"
-            android:enabled="true"
-            android:exported="true">
+        <!--<receiver-->
+            <!--android:name=".broadcast_reciever.InternetChecker"-->
+            <!--android:enabled="true"-->
+            <!--android:exported="true">-->
 
-            <intent-filter>
-                <!-- Intent filters for broadcast receiver -->
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-                <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
-                <action android:name="android.net.wifi.STATE_CHANGE" />
-            </intent-filter>
-        </receiver>
+            <!--<intent-filter>-->
+                <!--&lt;!&ndash; Intent filters for broadcast receiver &ndash;&gt;-->
+                <!--<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />-->
+                <!--<action android:name="android.net.wifi.WIFI_STATE_CHANGED" />-->
+                <!--<action android:name="android.net.wifi.STATE_CHANGE" />-->
+            <!--</intent-filter>-->
+        <!--</receiver>-->
     </application>
 
 </manifest>

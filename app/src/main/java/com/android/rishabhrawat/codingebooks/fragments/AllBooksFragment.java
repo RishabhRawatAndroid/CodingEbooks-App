@@ -51,7 +51,7 @@ public class AllBooksFragment extends Fragment implements ActivityListener {
     private static int page = 3;
     private boolean scrolled = false;
     private int currentItem, scrolledItem, totalItem;
-    private SwipeRefreshLayout swipeRefreshLayout;
+    public static SwipeRefreshLayout swipeRefreshLayout;
     public static boolean isonline = true;
     public static boolean isrefreshing = false;
     private static boolean showshimmer = false;
