@@ -21,6 +21,8 @@ import com.android.rishabhrawat.codingebooks.fragments.AllBooksFragment;
 import com.android.rishabhrawat.codingebooks.fragments.BookDiscriptionFragment;
 import com.android.rishabhrawat.codingebooks.modelclasses.Books;
 import com.android.rishabhrawat.codingebooks.room_database.BookEntity;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -29,9 +31,13 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
 
     ArrayList<Books> books;
     Context context;
+    private InterstitialAd mInterstitialAd;
+
 
     public BooksAdapter(ArrayList<Books> books, Context context, Fragment fragment) {
         this.books = books;
+        mInterstitialAd = new InterstitialAd(context);
+        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
         this.context = context;
 
     }
@@ -81,6 +87,13 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
 
             } else if (v.getId() == R.id.book_card) {
                 if(isNetworkConnected()) {
+
+                    mInterstitialAd.loadAd(new AdRequest.Builder().build());
+                    if (mInterstitialAd.isLoaded()) {
+                        mInterstitialAd.show();
+                   }
+
+
                     Fragment fragment = new BookDiscriptionFragment().newInstance(books.get(position).getBook_href(),
                             books.get(position).getBook_name(),
                             books.get(position).getBook_image(),books.get(position).getBook_info(),true);
@@ -91,6 +104,7 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
                     transaction.add(android.R.id.content, fragment);
                     transaction.addToBackStack("book_description");
                     transaction.commit();
+
                 }else
                 {
                     BottomNavigationActivity.showsnackbar();

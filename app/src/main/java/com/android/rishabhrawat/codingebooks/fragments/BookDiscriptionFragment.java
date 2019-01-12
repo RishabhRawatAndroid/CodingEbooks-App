@@ -24,6 +24,8 @@ import com.android.rishabhrawat.codingebooks.generalclasses.TouchDetectableScrol
 import com.android.rishabhrawat.codingebooks.modelclasses.BookDiscriptionModel;
 import com.android.rishabhrawat.codingebooks.room_database.BookEntity;
 import com.android.rishabhrawat.codingebooks.room_database.BookViewModel;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.squareup.picasso.Picasso;
 
 import org.jsoup.Jsoup;
@@ -71,6 +73,7 @@ public class BookDiscriptionFragment extends Fragment {
     private CardView card;
     private ImageView noconnection;
     private TextView noconnection_textview;
+    private AdView mAdView;
 
 
     static BookViewModel bookViewModel;
@@ -115,6 +118,10 @@ public class BookDiscriptionFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_book_discription, container, false);
         createView(view);
+
+        mAdView = view.findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 
         noconnection_textview.setVisibility(View.GONE);
         noconnection.setVisibility(View.GONE);

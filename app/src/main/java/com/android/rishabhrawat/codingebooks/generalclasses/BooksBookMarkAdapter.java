@@ -21,18 +21,29 @@ import com.android.rishabhrawat.codingebooks.activities.BottomNavigationActivity
 import com.android.rishabhrawat.codingebooks.fragments.BookDiscriptionFragment;
 import com.android.rishabhrawat.codingebooks.fragments.BooksBookMarkFragment;
 import com.android.rishabhrawat.codingebooks.room_database.BookEntity;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.reward.RewardItem;
+import com.google.android.gms.ads.reward.RewardedVideoAd;
+import com.google.android.gms.ads.reward.RewardedVideoAdListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class BooksBookMarkAdapter extends RecyclerView.Adapter<BooksBookMarkAdapter.MyBookHolder> {
+public class BooksBookMarkAdapter extends RecyclerView.Adapter<BooksBookMarkAdapter.MyBookHolder> implements RewardedVideoAdListener {
 
     private List<BookEntity> mBooks;
     private Context context;
     public static BookEntity bookEntitytemp;
+    private RewardedVideoAd mRewardedVideoAd;
 
     public BooksBookMarkAdapter(Context context) {
         this.context = context;
+        mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(context);
+        mRewardedVideoAd.setRewardedVideoAdListener(this);
+
+        mRewardedVideoAd.loadAd("ca-app-pub-3940256099942544/5224354917",
+                new AdRequest.Builder().build());
     }
 
     @NonNull
@@ -119,6 +130,11 @@ public class BooksBookMarkAdapter extends RecyclerView.Adapter<BooksBookMarkAdap
                 public void onClick(View v) {
                     int position=getAdapterPosition();
                     if(isNetworkConnected()) {
+
+                        if (mRewardedVideoAd.isLoaded()) {
+                            mRewardedVideoAd.show();
+                        }
+
                         Fragment fragment = new BookDiscriptionFragment().newInstance(
                                 mBooks.get(position).getBook_href(),
                                 mBooks.get(position).getBook_name(),
@@ -130,6 +146,8 @@ public class BooksBookMarkAdapter extends RecyclerView.Adapter<BooksBookMarkAdap
                         transaction.replace(android.R.id.content, fragment);
                         transaction.addToBackStack("book_description");
                         transaction.commit();
+
+
                     }else
                     {
                         BottomNavigationActivity.showsnackbar();
@@ -149,4 +167,48 @@ public class BooksBookMarkAdapter extends RecyclerView.Adapter<BooksBookMarkAdap
 
         }
     }
+
+
+    @Override
+    public void onRewardedVideoAdLoaded() {
+
+    }
+
+    @Override
+    public void onRewardedVideoAdOpened() {
+
+    }
+
+    @Override
+    public void onRewardedVideoStarted() {
+
+    }
+
+    @Override
+    public void onRewardedVideoAdClosed() {
+
+        mRewardedVideoAd.loadAd("ca-app-pub-3940256099942544/5224354917",
+                new AdRequest.Builder().build());
+    }
+
+    @Override
+    public void onRewarded(RewardItem rewardItem) {
+
+    }
+
+    @Override
+    public void onRewardedVideoAdLeftApplication() {
+
+    }
+
+    @Override
+    public void onRewardedVideoAdFailedToLoad(int i) {
+
+    }
+
+    @Override
+    public void onRewardedVideoCompleted() {
+
+    }
+
 }

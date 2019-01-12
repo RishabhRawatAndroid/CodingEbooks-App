@@ -15,6 +15,11 @@ import com.android.rishabhrawat.codingebooks.R;
 import com.android.rishabhrawat.codingebooks.modelclasses.CategoriesBooks;
 import com.android.rishabhrawat.codingebooks.modelclasses.CategoriesTypeBooks;
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.reward.RewardItem;
+import com.google.android.gms.ads.reward.RewardedVideoAd;
+import com.google.android.gms.ads.reward.RewardedVideoAdListener;
 
 import java.util.ArrayList;
 
@@ -22,6 +27,7 @@ public class BooksCategoriesAdapter extends RecyclerView.Adapter<BooksCategories
 
     private Context context;
     private ArrayList<CategoriesTypeBooks> categoriesTypeBooks;
+
 
     public BooksCategoriesAdapter(Context context, ArrayList<CategoriesTypeBooks> categoriesTypeBooks) {
         this.context = context;
@@ -58,6 +64,7 @@ public class BooksCategoriesAdapter extends RecyclerView.Adapter<BooksCategories
     public int getItemCount() {
         return categoriesTypeBooks.size();
     }
+
 
     public class BookViewHolder extends RecyclerView.ViewHolder {
 
@@ -97,7 +104,6 @@ public class BooksCategoriesAdapter extends RecyclerView.Adapter<BooksCategories
             //recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
             recyclerView.setItemAnimator(new DefaultItemAnimator());
             recyclerView.setAdapter(adapter);
-
         }
     }
 

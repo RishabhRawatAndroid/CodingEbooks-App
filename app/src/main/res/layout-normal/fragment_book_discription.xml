@@ -246,7 +246,7 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="24dp"
                     android:layout_marginEnd="10dp"
-                    android:layout_marginBottom="80dp"
+                    android:layout_marginBottom="100dp"
                     android:fontFamily="@font/roboto"
                     android:text="Explore the concepts, patterns, and architecture behind AppRun applications. With this end-to-end guide, you will be able to build web apps fast to the market with the low learning curve and high development productivity.
 
@@ -286,20 +286,22 @@ Web app developers and architects; useful for beginners learning front-end devel
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="140dp"
-            android:src="@drawable/no_connection" />
+            android:src="@drawable/no_connection"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/error_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/some_thing_wrong"
             android:layout_below="@+id/lost_connection_image"
-            android:textColor="@color/dark_gray"
+            android:layout_margin="10dp"
             android:fontFamily="@font/abeezee"
+            android:text="@string/some_thing_wrong"
+            android:textAlignment="center"
+            android:textColor="@color/dark_gray"
             android:textSize="15sp"
             android:textStyle="bold"
-            android:layout_margin="10dp"
-            android:textAlignment="center"/>
+            android:visibility="gone" />
 
 
     </RelativeLayout>
@@ -308,15 +310,45 @@ Web app developers and architects; useful for beginners learning front-end devel
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
+        android:layout_gravity="top|end"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="60dp"
         android:background="?attr/selectableItemBackground"
         android:clickable="true"
         android:src="@drawable/read"
         app:backgroundTint="@color/sky"
         app:elevation="5dp"
+        app:layout_anchor="@+id/adView_layout"
+        app:layout_anchorGravity="end|top"
         app:pressedTranslationZ="5dp"
         app:rippleColor="@color/white" />
+
+
+    <RelativeLayout
+        android:id="@+id/adView_layout"
+        android:background="@android:color/transparent"
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="bottom|center"
+        android:layout_height="50dp">
+
+        <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/adView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="bottom|center"
+            ads:adSize="BANNER"
+            ads:adUnitId="ca-app-pub-3940256099942544/6300978111"></com.google.android.gms.ads.AdView>
+
+    </RelativeLayout>
+
+
+
+
+
+
 
 </android.support.design.widget.CoordinatorLayout>

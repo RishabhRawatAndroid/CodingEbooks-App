@@ -40,7 +40,7 @@ public class SplashScreenActivity extends AppCompatActivity {
             public void run() {
                 startActivity();
             }
-        }, 4000);
+        }, 2000);
 
     }
 
