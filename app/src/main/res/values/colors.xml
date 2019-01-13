@@ -44,6 +44,8 @@
     <color name="placeholder_color">#dddddd</color>
 
     <color name="not_found_color">#EFF4FA</color>
+    <color name="toolbar">#085aac</color>
+    <color name="app_info_back">#FFDF82</color>
 
 
 </resources>

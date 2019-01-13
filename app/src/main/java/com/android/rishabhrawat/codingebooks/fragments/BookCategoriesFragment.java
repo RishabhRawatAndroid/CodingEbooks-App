@@ -96,6 +96,7 @@ public class BookCategoriesFragment extends Fragment {
         web.add(new CategoriesBooks("Laravel", R.drawable.laravel, "http://www.allitebooks.com/page/1/?s=laravel"));
         web.add(new CategoriesBooks("CodeIgnitor", R.drawable.codeigniter, "http://www.allitebooks.com/page/1/?s=code+igniter"));
         web.add(new CategoriesBooks("Zend", R.drawable.zend, "http://www.allitebooks.com/page/1/?s=zend"));
+        web.add(new CategoriesBooks("NodeJS",R.drawable.nodejs,"http://www.allitebooks.com/page/1/?s=nodejs"));
         web.add(new CategoriesBooks("Django", R.drawable.django, "http://www.allitebooks.com/page/1/?s=django"));
         web.add(new CategoriesBooks("PHP", R.drawable.php, "http://www.allitebooks.com/web-development/php/page/1/"));
         web.add(new CategoriesBooks("Python", R.drawable.python, "http://www.allitebooks.com/web-development/python/page/1/"));
@@ -137,7 +138,7 @@ public class BookCategoriesFragment extends Fragment {
         databases.add(new CategoriesBooks("Cassandra", R.drawable.cassandra, "http://www.allitebooks.com/page/1/?s=cassandra"));
 
         ai_and_data = new ArrayList<>();
-        ai_and_data.add(new CategoriesBooks("Machine Leaning", R.drawable.machine_learning, "http://www.allitebooks.com/page/1/?s=machine+learning"));
+        ai_and_data.add(new CategoriesBooks("Machine Learning", R.drawable.machine_learning, "http://www.allitebooks.com/page/1/?s=machine+learning"));
         ai_and_data.add(new CategoriesBooks("Deep Learning", R.drawable.deeplearning, "http://www.allitebooks.com/page/1/?s=deep+learning"));
         ai_and_data.add(new CategoriesBooks("Tensor Flow", R.drawable.tensorflow, "http://www.allitebooks.com/page/1/?s=tensor+flow"));
         ai_and_data.add(new CategoriesBooks("Neural Network", R.drawable.neuralnetwork, "http://www.allitebooks.com/page/1/?s=neural+network"));

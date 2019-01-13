@@ -21,6 +21,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.rishabhrawat.codingebooks.R;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 @SuppressLint("SetJavaScriptEnabled")
 public class BookWebViewFragment extends Fragment {
@@ -39,6 +41,7 @@ public class BookWebViewFragment extends Fragment {
     private boolean loaded = true;
     private RelativeLayout webviewlayout;
     private CardView cardView;
+    private AdView mAdView;
 
 
     public BookWebViewFragment() {
@@ -77,6 +80,11 @@ public class BookWebViewFragment extends Fragment {
         webviewlayout = view.findViewById(R.id.webview_layout);
         cardView = view.findViewById(R.id.book_webview_toolbar_card);
         toolbar_book_name.setText(Book_name);
+
+
+        mAdView = view.findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 
         back_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,27 +133,6 @@ public class BookWebViewFragment extends Fragment {
                 return true;
             }
         });
-
-
-//        ReactiveNetwork
-//                .observeNetworkConnectivity(getActivity())
-//                .subscribeOn(Schedulers.io())
-//                .filter(ConnectivityPredicate.hasState(NetworkInfo.State.CONNECTED))
-//                .filter(ConnectivityPredicate.hasType(ConnectivityManager.TYPE_WIFI))
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new Consumer<Connectivity>() {
-//                    @Override
-//                    public void accept(Connectivity connectivity) {
-//                        if (connectivity.state() == NetworkInfo.State.CONNECTED || connectivity.state() == NetworkInfo.State.CONNECTING) {
-//                            Log.d("RishabhInternet","Internet connected");
-//
-//                            pdf_webView.loadUrl("http://docs.google.com/gview?embedded=true&url=" + buffer.toString());
-//                        } else if(connectivity.state() == NetworkInfo.State.DISCONNECTED || connectivity.state() == NetworkInfo.State.DISCONNECTING){
-//                            Log.d("RishabhInternet","Internet DOWN");
-//                        }
-//
-//                    }
-//                });
 
         pdf_webView.loadUrl("http://docs.google.com/gview?embedded=true&url=" + buffer.toString());
         //pdf_webView.loadUrl("http://drive.google.com/viewerng/viewer?embedded=true&url="+buffer.toString());

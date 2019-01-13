@@ -56,7 +56,7 @@
     <string name="delete_all">Delete All Bookmarks</string>
     <string name="some_thing_wrong">OOPS Something went wrong!!! Slow Internet Connection or Network Error...</string>
     <string name="not_found">We could not found any books that you have search</string>
-
+    <string name="app_info">In Pro version you can download unlimited number of ebooks but currently we are working on making the pro version so it will take a time to develop.</string>
 
     <string-array name="appSettingsLanguageListArray">
         <item>English</item>
