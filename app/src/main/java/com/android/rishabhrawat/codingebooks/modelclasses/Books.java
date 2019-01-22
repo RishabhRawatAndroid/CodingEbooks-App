@@ -1,7 +1,5 @@
 package com.android.rishabhrawat.codingebooks.modelclasses;
 
-import java.util.ArrayList;
-
 public class Books {
 
     String book_image;

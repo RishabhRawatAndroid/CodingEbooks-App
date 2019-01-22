@@ -28,7 +28,7 @@ public class WelcomeViewPagerActivity extends AppCompatActivity {
     private LinearLayout dotsLayout;
     private TextView[] dots;
     private int[] layouts;
-    private View lineView;
+   // private View lineView;
     private Button btnSkip, btnNext;
     private MySharedPreference prefManager;
 
@@ -54,7 +54,7 @@ public class WelcomeViewPagerActivity extends AppCompatActivity {
         dotsLayout = findViewById(R.id.layoutDots);
         btnSkip = findViewById(R.id.btn_skip);
         btnNext = findViewById(R.id.btn_next);
-        lineView = findViewById(R.id.line_view);
+       // lineView = findViewById(R.id.line_view);
 
         btnNext.setTextColor(Color.WHITE);
         btnSkip.setText(getResources().getString(R.string.SKIP));

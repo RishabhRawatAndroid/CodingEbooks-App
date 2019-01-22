@@ -12,6 +12,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme">
         <activity
             android:name=".SplashScreenActivity"
@@ -39,19 +40,6 @@
             android:theme="@style/WithoutActionBarTheme"
             android:configChanges="orientation|screenSize"
             android:name=".activities.BottomNavigationActivity" />
-
-        <!--<receiver-->
-            <!--android:name=".broadcast_reciever.InternetChecker"-->
-            <!--android:enabled="true"-->
-            <!--android:exported="true">-->
-
-            <!--<intent-filter>-->
-                <!--&lt;!&ndash; Intent filters for broadcast receiver &ndash;&gt;-->
-                <!--<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />-->
-                <!--<action android:name="android.net.wifi.WIFI_STATE_CHANGED" />-->
-                <!--<action android:name="android.net.wifi.STATE_CHANGE" />-->
-            <!--</intent-filter>-->
-        <!--</receiver>-->
     </application>
 
 </manifest>

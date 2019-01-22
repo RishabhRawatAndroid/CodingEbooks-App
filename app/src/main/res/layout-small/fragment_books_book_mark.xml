@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/bookmark_layout"
-    xmlns:item="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.BooksBookMarkFragment">
 
     <android.support.v7.widget.RecyclerView
@@ -21,7 +20,8 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="53dp"
-        android:src="@drawable/floppy" />
+        android:src="@drawable/floppy"
+        android:contentDescription="TODO" />
 
     <TextView
         android:id="@+id/bookmark_text"

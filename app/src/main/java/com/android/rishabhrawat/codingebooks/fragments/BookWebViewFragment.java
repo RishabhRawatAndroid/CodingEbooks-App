@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,8 +37,8 @@ public class BookWebViewFragment extends Fragment {
     private ProgressBar progressBar;
     private StringBuffer buffer;
     private boolean loaded = true;
-    private RelativeLayout webviewlayout;
-    private CardView cardView;
+  //  private RelativeLayout webviewlayout;
+  //  private CardView cardView;
     private AdView mAdView;
 
 
@@ -77,8 +75,8 @@ public class BookWebViewFragment extends Fragment {
         toolbar_book_name = view.findViewById(R.id.book_webview_toolbar_text);
         back_btn = view.findViewById(R.id.book_webview_clode_img);
         // constraintLayout=view.findViewById(R.id.webview_inside_layout);
-        webviewlayout = view.findViewById(R.id.webview_layout);
-        cardView = view.findViewById(R.id.book_webview_toolbar_card);
+        //webviewlayout = view.findViewById(R.id.webview_layout);
+       // cardView = view.findViewById(R.id.book_webview_toolbar_card);
         toolbar_book_name.setText(Book_name);
 
 

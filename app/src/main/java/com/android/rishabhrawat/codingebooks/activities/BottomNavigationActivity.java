@@ -1,23 +1,18 @@
 package com.android.rishabhrawat.codingebooks.activities;
 
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
-import android.content.IntentFilter;
-import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,7 +32,6 @@ import com.android.rishabhrawat.codingebooks.interfaces.ActivityListener;
 import com.github.pwittchen.reactivenetwork.library.rx2.Connectivity;
 import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork;
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -49,7 +43,6 @@ public class BottomNavigationActivity extends AppCompatActivity  {
 
     private Toolbar toolbar;
     private static BottomNavigationView bottomNavigationView;
-  //  private InternetChecker checker;
     private CoordinatorLayout coordinatorLayout;
     public static Snackbar snackbar;
     private static View view;
@@ -89,10 +82,6 @@ public class BottomNavigationActivity extends AppCompatActivity  {
 
         context = BottomNavigationActivity.this;
 
-//        checker = new InternetChecker(BottomNavigationActivity.this);
-//        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
-//        registerReceiver(checker, filter);
-
         //setting up the toolbar setting
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -101,25 +90,20 @@ public class BottomNavigationActivity extends AppCompatActivity  {
 
         if (savedInstanceState != null) {
             save_state = savedInstanceState.getInt("save_state");
-            Log.d("RishabhRawat", "Save instance state not null");
         }
 
         if (save_state == 0) {
             setFragment(new AllBooksFragment());
             bottomNavigationView.setSelectedItemId(R.id.all_books_menu);
-            Log.d("RishabhRawat", "Save state 0");
         } else if (save_state == 1) {
             bottomNavigationView.setSelectedItemId(R.id.all_books_menu);
-            Log.d("RishabhRawat", "Save state 1");
             bottomNavigationView.setBackgroundColor(getResources().getColor(R.color.tabitem1));
         } else if (save_state == 2) {
             setFragment(new BookCategoriesFragment());
             bottomNavigationView.setSelectedItemId(R.id.book_categories);
-            Log.d("RishabhRawat", "Save state 2");
             bottomNavigationView.setBackgroundColor(getResources().getColor(R.color.tabitem2));
         } else if (save_state == 3) {
             setFragment(new BooksBookMarkFragment());
-            Log.d("RishabhRawat", "Save state 3");
             bottomNavigationView.setSelectedItemId(R.id.book_bookmark);
             bottomNavigationView.setBackgroundColor(getResources().getColor(R.color.tabitem3));
         }
@@ -257,15 +241,14 @@ public class BottomNavigationActivity extends AppCompatActivity  {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<Connectivity>() {
                     @Override
-                    public void accept(Connectivity connectivity) throws Exception {
+                    public void accept(Connectivity connectivity) {
                         if (connectivity.state() == NetworkInfo.State.CONNECTED) {
-                            Log.d("RishabhRX", "INTERNET IS CONNECTED");
                             if (activityListener != null) {
                                 activityListener.network_status(true);
                             }
 
                             if (snackbar.isShown()) {
-                                AllBooksFragment.isonline = true;
+                               // AllBooksFragment.isonline = true;
                                 snackbar.dismiss();
                             }
 
@@ -275,9 +258,8 @@ public class BottomNavigationActivity extends AppCompatActivity  {
                             }
                         }
                         if (connectivity.state() == NetworkInfo.State.DISCONNECTED || connectivity.state() == NetworkInfo.State.DISCONNECTING) {
-                            Log.d("RishabhRX", "INTERNET IS DISSCONNECTED");
                             snackbar.show();
-                            AllBooksFragment.isonline = false;
+                           // AllBooksFragment.isonline = false;
                         }
                     }
                 });

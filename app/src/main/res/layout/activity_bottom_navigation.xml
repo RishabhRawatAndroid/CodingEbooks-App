@@ -68,7 +68,7 @@
             ads:adSize="BANNER"
             android:layout_gravity="top|center"
             app:layout_anchor="@+id/navigation"
-            ads:adUnitId="ca-app-pub-3940256099942544/6300978111"
+            ads:adUnitId="ca-app-pub-8451532053051726/8216873930"
             app:layout_anchorGravity="center|top"></com.google.android.gms.ads.AdView>
 
 

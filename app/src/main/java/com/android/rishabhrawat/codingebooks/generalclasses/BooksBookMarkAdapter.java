@@ -42,7 +42,7 @@ public class BooksBookMarkAdapter extends RecyclerView.Adapter<BooksBookMarkAdap
         mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(context);
         mRewardedVideoAd.setRewardedVideoAdListener(this);
 
-        mRewardedVideoAd.loadAd("ca-app-pub-3940256099942544/5224354917",
+        mRewardedVideoAd.loadAd("ca-app-pub-8451532053051726/3481246523",
                 new AdRequest.Builder().build());
     }
 
@@ -60,10 +60,10 @@ public class BooksBookMarkAdapter extends RecyclerView.Adapter<BooksBookMarkAdap
             Picasso.get().load(current.getBook_url()).error(R.drawable.loaderror).into(myBookHolder.imageView);
             myBookHolder.title.setText(current.getBook_name());
             myBookHolder.description.setText(current.getBook_description());
-        } else {
+        } //else {
             // Covers the case of data not being ready yet.
 
-        }
+       // }
     }
 
     @Override
@@ -160,7 +160,7 @@ public class BooksBookMarkAdapter extends RecyclerView.Adapter<BooksBookMarkAdap
         try {
             ConnectivityManager mConnectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo mNetworkInfo = mConnectivityManager.getActiveNetworkInfo();
-            return (mNetworkInfo == null) ? false : true;
+            return mNetworkInfo != null;
 
         }catch (NullPointerException e){
             return false;
@@ -187,7 +187,7 @@ public class BooksBookMarkAdapter extends RecyclerView.Adapter<BooksBookMarkAdap
     @Override
     public void onRewardedVideoAdClosed() {
 
-        mRewardedVideoAd.loadAd("ca-app-pub-3940256099942544/5224354917",
+        mRewardedVideoAd.loadAd("ca-app-pub-8451532053051726/3481246523",
                 new AdRequest.Builder().build());
     }
 

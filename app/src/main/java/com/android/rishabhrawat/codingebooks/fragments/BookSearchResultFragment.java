@@ -1,30 +1,23 @@
 package com.android.rishabhrawat.codingebooks.fragments;
 
-import android.content.Context;
-import android.net.Uri;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.rishabhrawat.codingebooks.R;
 import com.android.rishabhrawat.codingebooks.activities.BottomNavigationActivity;
 import com.android.rishabhrawat.codingebooks.generalclasses.BooksAdapter;
-import com.android.rishabhrawat.codingebooks.modelclasses.BookDiscriptionModel;
 import com.android.rishabhrawat.codingebooks.modelclasses.Books;
-import com.android.rishabhrawat.codingebooks.modelclasses.BooksList;
-import com.android.rishabhrawat.codingebooks.room_database.BookViewModel;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -34,12 +27,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.Callable;
 
-import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.disposables.Disposables;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
@@ -53,11 +44,10 @@ public class BookSearchResultFragment extends Fragment {
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
     private static BooksAdapter booksAdapter;
-    static BookViewModel bookViewModel;
+   // static BookViewModel bookViewModel;
     private ArrayList<Books> booksArrayList = new ArrayList<>();
-    ;
+
     private LinearLayoutManager llm;
-    private Books books;
     private ImageView imageView;
 
     private ImageView not_found;
@@ -96,7 +86,7 @@ public class BookSearchResultFragment extends Fragment {
             search_url = getArguments().getString(ARG_PARAM1);
             search_name = getArguments().getString(ARG_PARAM2);
         }
-        bookViewModel = new BookViewModel(getActivity().getApplication());
+       // bookViewModel = new BookViewModel(getActivity().getApplication());
     }
 
     @Override
@@ -128,7 +118,7 @@ public class BookSearchResultFragment extends Fragment {
         }
 
         //booksArrayList = new ArrayList<>();
-        booksAdapter = new BooksAdapter(booksArrayList, getActivity(), BookSearchResultFragment.this);
+        booksAdapter = new BooksAdapter(booksArrayList, getActivity());
         recyclerView.setAdapter(booksAdapter);
         llm = new LinearLayoutManager(getActivity());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
@@ -168,7 +158,6 @@ public class BookSearchResultFragment extends Fragment {
                     if (scrolled && (currentItem + scrolledItem >= totalItem)) {
                         scrolled = false;
                         localurl = convertURL(localurl);
-                        Log.d("RishabhRX", localurl);
                         RUN_ASYNK_TASK(convertURL(localurl));
 
                     }
@@ -213,7 +202,6 @@ public class BookSearchResultFragment extends Fragment {
             }
 
         }
-        // Log.d("RISHABHRX",mybookarraylist.get(0).getBook_name());
         return mybookarraylist;
     }
 
@@ -286,7 +274,7 @@ public class BookSearchResultFragment extends Fragment {
         int startindex = string.indexOf(String.valueOf(value));
         int lastindex = string.lastIndexOf(String.valueOf(last));
 
-        return string.substring(0, startindex) + page + string.substring(lastindex + 1, string.length());
+        return string.substring(0, startindex) + page + string.substring(lastindex + 1);
     }
 
     @Override

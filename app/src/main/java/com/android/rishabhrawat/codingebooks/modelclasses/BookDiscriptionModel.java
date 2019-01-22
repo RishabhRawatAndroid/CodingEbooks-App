@@ -60,9 +60,6 @@ public class BookDiscriptionModel {
         this.pages = pages;
     }
 
-    public String getLanguage() {
-        return language;
-    }
 
     public void setLanguage(String language) {
         this.language = language;
@@ -74,10 +71,6 @@ public class BookDiscriptionModel {
 
     public void setPdf_size(String pdf_size) {
         this.pdf_size = pdf_size;
-    }
-
-    public String getFormat() {
-        return format;
     }
 
     public void setFormat(String format) {

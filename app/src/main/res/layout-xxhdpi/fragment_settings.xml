@@ -57,7 +57,8 @@
                 android:src="@drawable/ic_close_black_24dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:contentDescription="TODO" />
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>
 
@@ -99,7 +100,8 @@
                         android:src="@drawable/ic_notifications_orange_24dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:contentDescription="TODO" />
 
                     <TextView
                         android:id="@+id/textView1"
@@ -179,7 +181,8 @@
                         android:src="@drawable/ic_share_black_24dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:contentDescription="TODO" />
 
                     <TextView
                         android:id="@+id/textView7"
@@ -241,7 +244,8 @@
                         android:src="@drawable/ic_thumb_up_black_24dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:contentDescription="TODO" />
 
                     <TextView
                         android:id="@+id/textView9"
@@ -303,7 +307,8 @@
                         android:src="@drawable/ic_dns_black_24dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:contentDescription="TODO" />
 
                     <TextView
                         android:id="@+id/textView10"
@@ -365,7 +370,8 @@
                         android:src="@drawable/ic_tablet_mac_black_24dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:contentDescription="TODO" />
 
                     <TextView
                         android:id="@+id/textView11"
@@ -427,7 +433,8 @@
                         android:src="@drawable/ic_shopping_cart_black_24dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:contentDescription="TODO" />
 
                     <TextView
                         android:id="@+id/textView12"
@@ -471,6 +478,6 @@
         android:layout_centerHorizontal="true"
         android:layout_gravity="bottom|center"
         ads:adSize="BANNER"
-        ads:adUnitId="ca-app-pub-3940256099942544/6300978111"></com.google.android.gms.ads.AdView>
+        ads:adUnitId="ca-app-pub-8451532053051726/8216873930"></com.google.android.gms.ads.AdView>
 
 </RelativeLayout>

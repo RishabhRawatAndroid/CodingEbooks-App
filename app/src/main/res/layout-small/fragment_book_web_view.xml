@@ -66,7 +66,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.687" />
+                app:layout_constraintVertical_bias="0.687"
+                android:contentDescription="TODO" />
 
             <ProgressBar
                 android:id="@+id/pdf_webView_progressbar"
@@ -109,7 +110,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             ads:adSize="SMART_BANNER"
-            ads:adUnitId="ca-app-pub-3940256099942544/6300978111"
+            ads:adUnitId="ca-app-pub-8451532053051726/8216873930"
             ads:layout_constraintBottom_toBottomOf="parent"
             ads:layout_constraintEnd_toEndOf="parent"
             ads:layout_constraintStart_toStartOf="parent"></com.google.android.gms.ads.AdView>

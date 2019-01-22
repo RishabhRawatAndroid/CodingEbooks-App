@@ -34,10 +34,10 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
     private InterstitialAd mInterstitialAd;
 
 
-    public BooksAdapter(ArrayList<Books> books, Context context, Fragment fragment) {
+    public BooksAdapter(ArrayList<Books> books, Context context) {
         this.books = books;
         mInterstitialAd = new InterstitialAd(context);
-        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+        mInterstitialAd.setAdUnitId("ca-app-pub-8451532053051726/5559878866");
         this.context = context;
 
     }
@@ -118,7 +118,7 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
         try {
             ConnectivityManager mConnectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo mNetworkInfo = mConnectivityManager.getActiveNetworkInfo();
-            return (mNetworkInfo == null) ? false : true;
+            return mNetworkInfo != null;
 
         }catch (NullPointerException e){
             return false;

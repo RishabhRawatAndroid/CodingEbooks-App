@@ -8,19 +8,15 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.CardView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.rishabhrawat.codingebooks.R;
-import com.android.rishabhrawat.codingebooks.generalclasses.TouchDetectableScrollView;
 import com.android.rishabhrawat.codingebooks.modelclasses.BookDiscriptionModel;
 import com.android.rishabhrawat.codingebooks.room_database.BookEntity;
 import com.android.rishabhrawat.codingebooks.room_database.BookViewModel;
@@ -63,14 +59,14 @@ public class BookDiscriptionFragment extends Fragment {
     private TextView book_name, book_isbn, book_size, book_category, book_author, book_pages, book_year, book_information;
     private ImageView book_image;
     private ProgressBar progressBar;
-    private TouchDetectableScrollView scrollView;
+   // private TouchDetectableScrollView scrollView;
     private FloatingActionButton actionButton;
     private String pdf_link;
     private StringBuilder builder;
     private TextView toolbar_text;
     private ImageView toolbar_img;
     private ImageView book_add;
-    private CardView card;
+   // private CardView card;
     private ImageView noconnection;
     private TextView noconnection_textview;
     private AdView mAdView;
@@ -185,7 +181,7 @@ public class BookDiscriptionFragment extends Fragment {
         try {
             ConnectivityManager mConnectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo mNetworkInfo = mConnectivityManager.getActiveNetworkInfo();
-            return (mNetworkInfo == null) ? false : true;
+            return mNetworkInfo != null;
 
         } catch (NullPointerException e) {
             return false;
@@ -220,11 +216,11 @@ public class BookDiscriptionFragment extends Fragment {
         book_information = view.findViewById(R.id.book_text_detail);
         book_image = view.findViewById(R.id.book_description_image);
         progressBar = view.findViewById(R.id.progressBar_description);
-        scrollView = view.findViewById(R.id.scroll_layout);
+      //  scrollView = view.findViewById(R.id.scroll_layout);
         actionButton = view.findViewById(R.id.fab);
         toolbar_img = view.findViewById(R.id.book_description_close_img);
         toolbar_text = view.findViewById(R.id.book_description_toolbar_text);
-        card = view.findViewById(R.id.book_description_toolbar_card);
+      //  card = view.findViewById(R.id.book_description_toolbar_card);
         book_add = view.findViewById(R.id.add_book_description);
         noconnection=view.findViewById(R.id.lost_connection_image);
         noconnection_textview=view.findViewById(R.id.error_text);

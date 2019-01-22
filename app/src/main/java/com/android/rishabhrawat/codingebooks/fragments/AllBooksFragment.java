@@ -1,6 +1,5 @@
 package com.android.rishabhrawat.codingebooks.fragments;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -12,16 +11,15 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.Toast;
 
 import com.android.rishabhrawat.codingebooks.R;
 import com.android.rishabhrawat.codingebooks.activities.BottomNavigationActivity;
 import com.android.rishabhrawat.codingebooks.generalclasses.BooksAdapter;
+import com.android.rishabhrawat.codingebooks.generalclasses.MySharedPreference;
 import com.android.rishabhrawat.codingebooks.interfaces.ActivityListener;
 import com.android.rishabhrawat.codingebooks.modelclasses.Books;
 import com.android.rishabhrawat.codingebooks.modelclasses.BooksList;
@@ -33,7 +31,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 
@@ -52,8 +49,8 @@ public class AllBooksFragment extends Fragment implements ActivityListener {
     private boolean scrolled = false;
     private int currentItem, scrolledItem, totalItem;
     public static SwipeRefreshLayout swipeRefreshLayout;
-    public static boolean isonline = true;
-    public static boolean isrefreshing = false;
+  //  public static boolean isonline = true;
+   // public static boolean isrefreshing = false;
     private static boolean showshimmer = false;
     private static boolean firsttime = false;
     private static boolean scrollprogress = false;
@@ -144,7 +141,6 @@ public class AllBooksFragment extends Fragment implements ActivityListener {
                     if (scrolled && (currentItem + scrolledItem >= totalItem)) {
                         scrolled = false;
                         page = page + 1;
-                        Log.d("Rishabh", "Pages is the " + page);
                         scrollprogress = true;
                         task = new MyAsynckTask(getActivity());
                         task.execute("http://www.allitebooks.com/page/" + page + "/");
@@ -165,7 +161,6 @@ public class AllBooksFragment extends Fragment implements ActivityListener {
                     booksArrayList = new ArrayList<>();
                     showshimmer = true;
                     shimmerFrameLayout.setVisibility(View.VISIBLE);
-                    Log.d("RishabhRawat", "refresh call isonline");
                     MyAsynckTask mytask = new MyAsynckTask(getActivity());
                     page = 1;
                     mytask.execute("http://www.allitebooks.com/page/3/");
@@ -189,27 +184,22 @@ public class AllBooksFragment extends Fragment implements ActivityListener {
     private boolean isOnline() {
         ConnectivityManager cm = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        if (netInfo != null && netInfo.isConnectedOrConnecting())
-            return true;
-        else
-            return false;
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
 
     private void setAdapter() {
         //bookArrayList takes the data from async task (in OnCreate method) if internet is available and if internet is not availabe then bookarraylist get the data from the BookList class
-        booksAdapter = new BooksAdapter(booksArrayList, getActivity(), AllBooksFragment.this);
-        recyclerView.setAdapter(booksAdapter);
+        booksAdapter = new BooksAdapter(booksArrayList, getActivity());
         llm = new LinearLayoutManager(getActivity());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(llm);
-
+        recyclerView.setAdapter(booksAdapter);
     }
 
     @Override
     public void network_status(boolean status) {
         if (status && firsttime) {
-            Log.d("RishabhRawat", "Internet up");
             booksArrayList = new ArrayList<>();
             showshimmer = true;
             task = new MyAsynckTask(getActivity());
@@ -226,6 +216,7 @@ public class AllBooksFragment extends Fragment implements ActivityListener {
 
 
     class MyAsynckTask extends AsyncTask<String, Void, Boolean> {
+        Context context;
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -240,6 +231,7 @@ public class AllBooksFragment extends Fragment implements ActivityListener {
         }
 
         public MyAsynckTask(Context context) {
+            this.context=context;
         }
 
         @Override
@@ -261,6 +253,13 @@ public class AllBooksFragment extends Fragment implements ActivityListener {
                         books.setBook_info(distext.text());
                         books.setBook_href(hreftext);
                         booksArrayList.add(books);
+
+                        if(firsttime)
+                        {
+                            MySharedPreference preference=new MySharedPreference(context);
+                            preference.setFirstBookUrl(image);
+                            firsttime=false;
+                        }
                     }
                 }
                 return false;
@@ -293,7 +292,6 @@ public class AllBooksFragment extends Fragment implements ActivityListener {
 
                 // progressBar.setVisibility(View.INVISIBLE);
                 if (showshimmer) {
-                    Log.d("RishabhRawat", "show simmer async");
                     shimmerFrameLayout.stopShimmer();
                     shimmerFrameLayout.setVisibility(View.GONE);
                     showshimmer = false;
@@ -310,9 +308,9 @@ public class AllBooksFragment extends Fragment implements ActivityListener {
                     swipeRefreshLayout.setProgressBackgroundColorSchemeColor(getResources().getColor(R.color.white));
                     scrollprogress = false;
                 }
-            } else {
-
-            }
+            }// else {
+//
+//            }
         }
     }
 

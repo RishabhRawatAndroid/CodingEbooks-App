@@ -1,8 +1,6 @@
 package com.android.rishabhrawat.codingebooks.fragments;
 
-import android.content.Context;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -22,11 +20,7 @@ import com.android.rishabhrawat.codingebooks.R;
 public class PrivacyPolicyFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
     private String mParam1;
-    private String mParam2;
 
     private WebView webView;
     private ProgressBar progressBar;
@@ -36,11 +30,10 @@ public class PrivacyPolicyFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static PrivacyPolicyFragment newInstance(String param1, String param2) {
+    public static PrivacyPolicyFragment newInstance(String param1) {
         PrivacyPolicyFragment fragment = new PrivacyPolicyFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -50,7 +43,6 @@ public class PrivacyPolicyFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 

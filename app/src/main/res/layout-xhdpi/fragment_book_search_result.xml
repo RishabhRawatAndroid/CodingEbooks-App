@@ -27,7 +27,8 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:layout_marginTop="140dp"
-        android:src="@drawable/no_connection" />
+        android:src="@drawable/no_connection"
+        android:contentDescription="TODO" />
 
     <TextView
         android:id="@+id/error_text_search_result"
@@ -50,7 +51,8 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:src="@drawable/founderror" />
+        android:src="@drawable/founderror"
+        android:contentDescription="TODO" />
 
     <TextView
         android:id="@+id/not_fount_text"

@@ -11,7 +11,8 @@
         android:id="@+id/back_button"
         android:layout_width="25dp"
         android:layout_height="25dp"
-        android:src="@drawable/ic_arrow_back_white_24dp"/>
+        android:src="@drawable/ic_arrow_back_white_24dp"
+        android:contentDescription="TODO" />
 
     <TextView
         android:id="@+id/app_name_text"
@@ -42,7 +43,8 @@
         android:layout_height="50dp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:src="@drawable/app_info_background" />
+        android:src="@drawable/app_info_background"
+        android:contentDescription="TODO" />
 
     <com.facebook.shimmer.ShimmerFrameLayout
         android:layout_alignParentBottom="true"

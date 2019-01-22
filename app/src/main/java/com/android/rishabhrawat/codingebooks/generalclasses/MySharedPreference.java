@@ -30,4 +30,25 @@ public class MySharedPreference {
     public boolean isFirstTimeLaunch() {
         return pref.getBoolean("first_time", true);
     }
+
+    public void setFirstBookUrl(String url) {
+        editor.putString("URL_BOOK", url);
+        editor.commit();
+    }
+
+    public String getFirstBookUrl() {
+        return pref.getString("URL_BOOK", null);
+    }
+
+
+    public void setSwitchState(boolean value)
+    {
+        editor.putBoolean("SWITCH", value);
+        editor.commit();
+    }
+
+    public boolean getSwitchState()
+    {
+        return pref.getBoolean("SWITCH",false);
+    }
 }

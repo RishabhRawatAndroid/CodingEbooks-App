@@ -16,15 +16,8 @@ public class CategoriesTypeBooks {
         return bookcategoriesname;
     }
 
-    public void setBookcategoriesname(String bookcategoriesname) {
-        this.bookcategoriesname = bookcategoriesname;
-    }
-
     public ArrayList<CategoriesBooks> getCategoriesBooksArrayList() {
         return categoriesBooksArrayList;
     }
 
-    public void setCategoriesBooksArrayList(ArrayList<CategoriesBooks> categoriesBooksArrayList) {
-        this.categoriesBooksArrayList = categoriesBooksArrayList;
-    }
 }

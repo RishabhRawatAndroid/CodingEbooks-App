@@ -86,7 +86,7 @@ public class BooksCategoriesItemAdapter extends RecyclerView.Adapter<BooksCatego
                                 mRewardedVideoAd.show();
                             }
 
-                            mRewardedVideoAd.loadAd("ca-app-pub-3940256099942544/5224354917",
+                            mRewardedVideoAd.loadAd("ca-app-pub-8451532053051726/3481246523",
                                     new AdRequest.Builder().build());
                         }
                     });
@@ -120,7 +120,7 @@ public class BooksCategoriesItemAdapter extends RecyclerView.Adapter<BooksCatego
             @Override
             public void run() {
 
-                mRewardedVideoAd.loadAd("ca-app-pub-3940256099942544/5224354917",
+                mRewardedVideoAd.loadAd("ca-app-pub-8451532053051726/3481246523",
                         new AdRequest.Builder().build());
             }
         });

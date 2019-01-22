@@ -1,6 +1,5 @@
 package com.android.rishabhrawat.codingebooks.fragments;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -13,24 +12,23 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.Switch;
 
 import com.android.rishabhrawat.codingebooks.R;
-import com.android.rishabhrawat.codingebooks.activities.BottomNavigationActivity;
+import com.android.rishabhrawat.codingebooks.generalclasses.MySharedPreference;
+import com.android.rishabhrawat.codingebooks.workermanagertask.NotificationWorker;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
+
+import java.util.concurrent.TimeUnit;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
+
+
 public class SettingsFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
 
     ImageView close_btn;
     ConstraintLayout about_app;
@@ -39,27 +37,10 @@ public class SettingsFragment extends Fragment {
     ConstraintLayout privacy_policy;
     ConstraintLayout pro_version;
     private AdView mAdView;
+    Switch notify_switch;
 
     public SettingsFragment() {
         // Required empty public constructor
-    }
-
-    public static SettingsFragment newInstance(String param1, String param2) {
-        SettingsFragment fragment = new SettingsFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -114,7 +95,7 @@ public class SettingsFragment extends Fragment {
         privacy_policy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Fragment fragment = new PrivacyPolicyFragment().newInstance("https://privacypolicies.com/privacy/view/27d0ffccb16751240f1659bf4f03a27d","");
+                Fragment fragment = new PrivacyPolicyFragment().newInstance("https://privacypolicies.com/privacy/view/27d0ffccb16751240f1659bf4f03a27d");
 
                 FragmentTransaction transaction = getActivity().getSupportFragmentManager()
                         .beginTransaction()
@@ -157,6 +138,40 @@ public class SettingsFragment extends Fragment {
             }
         });
 
+        notify_switch.setSoundEffectsEnabled(true);
+        final MySharedPreference preference=new MySharedPreference(getContext());
+        notify_switch.setChecked(preference.getSwitchState());
+        notify_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked)
+                {
+                    //preference.setFirstBookUrl("http://www.allitebooks.com/wp-content/uploads/2019/01/iPad-Application-Sketch-Book.jpg");
+                    preference.setSwitchState(true);
+//                    PeriodicWorkRequest builder= new PeriodicWorkRequest.Builder(NotificationWorker.class,15, TimeUnit.MINUTES).addTag("Notification_Book").build();
+//                    WorkManager.getInstance().enqueueUniquePeriodicWork("Notification_Book", ExistingPeriodicWorkPolicy.KEEP, builder);
+//                    WorkManager.getInstance().getWorkInfosByTagLiveData("").observe(SettingsFragment.this, new Observer<List<WorkInfo>>() {
+//                        @Override
+//                        public void onChanged(@Nullable List<WorkInfo> workInfos) {
+//                            if(workInfos!=null)
+//                            {
+//                                workInfos.get(0).getState();
+//                            }
+//                        }
+//                    });
+
+                    OneTimeWorkRequest compressionWork = new OneTimeWorkRequest.Builder(NotificationWorker.class).setInitialDelay(15,TimeUnit.MINUTES).addTag("Notification_Book").build();
+                    WorkManager.getInstance().enqueue(compressionWork);
+
+
+                }
+                else {
+                    preference.setSwitchState(false);
+                    WorkManager.getInstance().cancelAllWorkByTag("Notification_Book");
+                }
+            }
+        });
+
         return view;
     }
 
@@ -167,6 +182,7 @@ public class SettingsFragment extends Fragment {
         privacy_policy = view.findViewById(R.id.privacy_card_layout);
         rate_it = view.findViewById(R.id.rate_card_layout);
         share_it = view.findViewById(R.id.share_card_layout);
+        notify_switch=view.findViewById(R.id.switch1);
 
     }
 

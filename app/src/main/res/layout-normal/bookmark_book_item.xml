@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -44,7 +42,8 @@
                 cardview:layout_constraintHorizontal_bias="0.02"
                 cardview:layout_constraintStart_toStartOf="parent"
                 cardview:layout_constraintTop_toTopOf="parent"
-                cardview:layout_constraintVertical_bias="0.252" />
+                cardview:layout_constraintVertical_bias="0.252"
+                android:contentDescription="TODO" />
 
             <TextView
                 android:id="@+id/book_name_bookmark"
@@ -95,7 +94,8 @@
                 cardview:layout_constraintHorizontal_bias="1.0"
                 cardview:layout_constraintStart_toStartOf="@+id/book_name_bookmark"
                 cardview:layout_constraintTop_toTopOf="parent"
-                cardview:layout_constraintVertical_bias="0.62" />
+                cardview:layout_constraintVertical_bias="0.62"
+                android:contentDescription="TODO" />
 
 
         </android.support.constraint.ConstraintLayout>

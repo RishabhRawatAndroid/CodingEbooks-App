@@ -28,10 +28,6 @@ public class BookEntity {
         return book_href;
     }
 
-    public void setBook_href(String book_href) {
-        this.book_href = book_href;
-    }
-
     public int getId() {
         return id;
     }
@@ -44,23 +40,11 @@ public class BookEntity {
         return book_name;
     }
 
-    public void setBook_name(String book_name) {
-        this.book_name = book_name;
-    }
-
     public String getBook_url() {
         return book_url;
     }
 
-    public void setBook_url(String book_url) {
-        this.book_url = book_url;
-    }
-
     public String getBook_description() {
         return book_description;
-    }
-
-    public void setBook_description(String book_description) {
-        this.book_description = book_description;
     }
 }

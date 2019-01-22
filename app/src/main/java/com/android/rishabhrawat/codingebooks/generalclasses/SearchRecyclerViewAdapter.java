@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.rishabhrawat.codingebooks.R;
@@ -55,14 +54,14 @@ public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<SearchRecycl
 
     class MyViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView imageView;
+       // ImageView imageView;
         TextView textView;
         ConstraintLayout search_item_card;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            imageView = itemView.findViewById(R.id.search_img);
+           // imageView = itemView.findViewById(R.id.search_img);
             textView = itemView.findViewById(R.id.search_text);
             search_item_card=itemView.findViewById(R.id.search_item_card);
 

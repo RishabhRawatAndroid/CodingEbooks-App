@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <android.support.v7.widget.CardView xmlns:cardview="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/book_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        cardview:cardCornerRadius="5dp"
+        cardview:cardElevation="10dp"
+        android:clickable="true"
+        android:background="?attr/selectableItemBackground"
+        cardview:layout_constraintBottom_toBottomOf="parent"
+        cardview:layout_constraintEnd_toEndOf="parent"
+        cardview:layout_constraintHorizontal_bias="0.0"
+        cardview:layout_constraintStart_toStartOf="parent"
+        cardview:layout_constraintTop_toTopOf="parent"
+        cardview:layout_constraintVertical_bias="0.02">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/book_image"
+                android:layout_width="100dp"
+                android:layout_height="120dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="8dp"
+                android:transitionName="book_image"
+                android:contentDescription="TODO"
+                cardview:layout_constraintBottom_toBottomOf="parent"
+                cardview:layout_constraintEnd_toEndOf="parent"
+                cardview:layout_constraintHorizontal_bias="0.02"
+                cardview:layout_constraintStart_toStartOf="parent"
+                cardview:layout_constraintTop_toTopOf="parent"
+                cardview:layout_constraintVertical_bias="0.252" />
+
+            <TextView
+                android:id="@+id/book_name_textview"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="8dp"
+                android:text="Java Programming langaage vhjhv bjh kbkjb kjbkjb kjbkjb kjbkj jkkjb kjbkjb kjbk kjbkjb kjbkjb kjbkjb jbkjb jbkb kjbkjb jkbkjb"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                cardview:layout_constraintEnd_toEndOf="parent"
+                cardview:layout_constraintStart_toEndOf="@+id/book_image"
+                cardview:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/book_disc_textview"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="This is book has no more info lhlkh lklk lklkh lklkhl lkhlk lkhlkh lkhlkh"
+                android:textColor="@color/dark_gray"
+                android:textStyle="italic|bold"
+                android:textSize="16sp"
+                cardview:layout_constraintBottom_toBottomOf="parent"
+                cardview:layout_constraintEnd_toEndOf="parent"
+                cardview:layout_constraintHorizontal_bias="0.0"
+                cardview:layout_constraintStart_toStartOf="@+id/book_name_textview"
+                cardview:layout_constraintTop_toBottomOf="@+id/book_name_textview"
+                cardview:layout_constraintVertical_bias="0.517" />
+
+            <ImageView
+                android:id="@+id/save_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:contentDescription="TODO"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:src="@drawable/ic_add_circle_outline_black_24dp"
+                android:tooltipText="@string/add_to_bookmark"
+                android:clickable="true"
+                android:background="?attr/selectableItemBackground"
+                cardview:layout_constraintBottom_toTopOf="@+id/book_name_textview"
+                cardview:layout_constraintEnd_toEndOf="parent"
+                cardview:layout_constraintHorizontal_bias="1.0"
+                cardview:layout_constraintStart_toStartOf="@+id/book_name_textview"
+                cardview:layout_constraintTop_toTopOf="parent"
+                cardview:layout_constraintVertical_bias="0.62" />
+
+
+        </android.support.constraint.ConstraintLayout>
+    </android.support.v7.widget.CardView>
+</RelativeLayout>

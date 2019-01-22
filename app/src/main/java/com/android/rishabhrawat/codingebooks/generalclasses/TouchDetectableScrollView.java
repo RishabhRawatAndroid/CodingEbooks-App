@@ -36,14 +36,6 @@ public class TouchDetectableScrollView extends ScrollView {
         }
     }
 
-    public OnMyScrollChangeListener getMyScrollChangeListener() {
-        return myScrollChangeListener;
-    }
-
-    public void setMyScrollChangeListener(OnMyScrollChangeListener myScrollChangeListener) {
-        this.myScrollChangeListener = myScrollChangeListener;
-    }
-
     public interface OnMyScrollChangeListener
     {
          void onScrollUp();

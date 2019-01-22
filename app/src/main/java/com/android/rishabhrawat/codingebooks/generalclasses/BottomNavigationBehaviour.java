@@ -7,8 +7,6 @@ import android.support.v4.view.ViewCompat;
 import android.view.Gravity;
 import android.view.View;
 
-import com.google.android.gms.ads.AdView;
-
 public class BottomNavigationBehaviour extends CoordinatorLayout.Behavior {
 
     public BottomNavigationBehaviour() {

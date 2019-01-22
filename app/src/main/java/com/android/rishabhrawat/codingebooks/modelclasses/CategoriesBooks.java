@@ -15,10 +15,6 @@ public class CategoriesBooks {
         return categories_url;
     }
 
-    public void setCategories_url(String categories_url) {
-        this.categories_url = categories_url;
-    }
-
     public String getName() {
         return name;
     }
@@ -29,9 +25,5 @@ public class CategoriesBooks {
 
     public Integer getDrawable_image() {
         return drawable_image;
-    }
-
-    public void setDrawable_image(Integer drawable_image) {
-        this.drawable_image = drawable_image;
     }
 }

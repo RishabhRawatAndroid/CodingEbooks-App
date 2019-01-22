@@ -20,16 +20,6 @@ import java.util.ArrayList;
 
 
 public class BookCategoriesFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    private String mParam1;
-    private String mParam2;
-
-    // private OnFragmentInteractionListener mListener;
-
 
     private RecyclerView categories_vertical_recyclerview;
     private BooksCategoriesAdapter booksCategoriesAdapter;
@@ -61,22 +51,10 @@ public class BookCategoriesFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static BookCategoriesFragment newInstance(String param1, String param2) {
-        BookCategoriesFragment fragment = new BookCategoriesFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        if (getArguments() != null) {
-//            mParam1 = getArguments().getString(ARG_PARAM1);
-//            mParam2 = getArguments().getString(ARG_PARAM2);
-//        }
     }
 
     private void initializeData() {
@@ -170,6 +148,7 @@ public class BookCategoriesFragment extends Fragment {
         graphics.add(new CategoriesBooks("AutoCAD",R.drawable.autocad,"http://www.allitebooks.com/graphics-design/cad/page/1/"));
         graphics.add(new CategoriesBooks("Adobe Flash",R.drawable.flash,"http://www.allitebooks.com/graphics-design/flash/page/1/"));
         graphics.add(new CategoriesBooks("DreamWeaver",R.drawable.dreamweaver,"http://www.allitebooks.com/graphics-design/dreamweaver/page/1/"));
+        graphics.add(new CategoriesBooks("Blender",R.drawable.blender,"http://www.allitebooks.com/page/1/?s=blender"));
 
         os=new ArrayList<>();
         os.add(new CategoriesBooks("Android",R.drawable.android,"http://www.allitebooks.com/operating-systems/android/page/1/"));
