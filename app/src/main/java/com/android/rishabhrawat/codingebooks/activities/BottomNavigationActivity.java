@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.android.rishabhrawat.codingebooks.R;
@@ -38,7 +39,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
-public class BottomNavigationActivity extends AppCompatActivity  {
+public class BottomNavigationActivity extends AppCompatActivity {
 
 
     private Toolbar toolbar;
@@ -225,7 +226,7 @@ public class BottomNavigationActivity extends AppCompatActivity  {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-      //  unregisterReceiver(checker);
+        //  unregisterReceiver(checker);
     }
 
     @Override
@@ -240,17 +241,25 @@ public class BottomNavigationActivity extends AppCompatActivity  {
                 .observeNetworkConnectivity(this)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnError(new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        Toast.makeText(BottomNavigationActivity.this, "Something Went Wrong...", Toast.LENGTH_SHORT).show();
+                    }
+                })
                 .subscribe(new Consumer<Connectivity>() {
                     @Override
                     public void accept(Connectivity connectivity) {
                         if (connectivity.state() == NetworkInfo.State.CONNECTED) {
-                            mAdView.loadAd(adRequest);
+                            if (mAdView != null)
+                                mAdView.loadAd(adRequest);
+
                             if (activityListener != null) {
                                 activityListener.network_status(true);
                             }
 
                             if (snackbar.isShown()) {
-                               // AllBooksFragment.isonline = true;
+                                // AllBooksFragment.isonline = true;
                                 snackbar.dismiss();
                             }
 
@@ -261,7 +270,7 @@ public class BottomNavigationActivity extends AppCompatActivity  {
                         }
                         if (connectivity.state() == NetworkInfo.State.DISCONNECTED || connectivity.state() == NetworkInfo.State.DISCONNECTING) {
                             snackbar.show();
-                           // AllBooksFragment.isonline = false;
+                            // AllBooksFragment.isonline = false;
                         }
                     }
                 });

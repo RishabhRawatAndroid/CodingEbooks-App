@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,9 +37,12 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
 
     public BooksAdapter(ArrayList<Books> books, Context context) {
         this.books = books;
-        mInterstitialAd = new InterstitialAd(context);
-        mInterstitialAd.setAdUnitId("ca-app-pub-8451532053051726/5559878866");
+        if (context != null) {
+            mInterstitialAd = new InterstitialAd(context);
+            mInterstitialAd.setAdUnitId("ca-app-pub-8451532053051726/5559878866");
+        }
         this.context = context;
+        Log.d("Rishabh Rawat", "Context is " + context);
 
     }
 
@@ -86,27 +90,28 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
                 Toast.makeText(context, context.getResources().getString(R.string.book_added), Toast.LENGTH_SHORT).show();
 
             } else if (v.getId() == R.id.book_card) {
-                if(isNetworkConnected()) {
+                if (isNetworkConnected()) {
+
 
                     mInterstitialAd.loadAd(new AdRequest.Builder().build());
+
                     if (mInterstitialAd.isLoaded()) {
                         mInterstitialAd.show();
-                   }
+                    }
 
 
                     Fragment fragment = new BookDiscriptionFragment().newInstance(books.get(position).getBook_href(),
                             books.get(position).getBook_name(),
-                            books.get(position).getBook_image(),books.get(position).getBook_info(),true);
+                            books.get(position).getBook_image(), books.get(position).getBook_info(), true);
 
                     FragmentTransaction transaction = ((BottomNavigationActivity) context).getSupportFragmentManager()
-                            .beginTransaction().addSharedElement(imageView,"book_image")
-                            .setCustomAnimations(R.anim.slide_left,R.anim.slide_right);
+                            .beginTransaction().addSharedElement(imageView, "book_image")
+                            .setCustomAnimations(R.anim.slide_left, R.anim.slide_right);
                     transaction.add(android.R.id.content, fragment);
                     transaction.addToBackStack("book_description");
                     transaction.commit();
 
-                }else
-                {
+                } else {
                     BottomNavigationActivity.showsnackbar();
                 }
 
@@ -120,12 +125,13 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
             NetworkInfo mNetworkInfo = mConnectivityManager.getActiveNetworkInfo();
             return mNetworkInfo != null;
 
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             return false;
 
         }
     }
-        @NonNull
+
+    @NonNull
     @Override
     public BookViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.book_item, parent, false);

@@ -3,7 +3,9 @@ package com.android.rishabhrawat.codingebooks.workermanagertask;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -13,12 +15,16 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.android.rishabhrawat.codingebooks.R;
+import com.android.rishabhrawat.codingebooks.activities.BottomNavigationActivity;
+import com.android.rishabhrawat.codingebooks.generalclasses.BottomNavigationBehaviour;
 import com.android.rishabhrawat.codingebooks.generalclasses.MySharedPreference;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
+
 import java.util.concurrent.TimeUnit;
+
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
 import androidx.work.Worker;
@@ -26,8 +32,11 @@ import androidx.work.WorkerParameters;
 
 public class NotificationWorker extends Worker {
 
+    Context context;
+
     public NotificationWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
+        this.context = context;
     }
 
     @NonNull
@@ -43,20 +52,18 @@ public class NotificationWorker extends Worker {
                     String image = elements.select("div[class=entry-thumbnail hover-thumb]").select("img").eq(a).attr("src");
                     Elements distext = elements.select("div[class=entry-body]").select("div[class=entry-summary] > p").eq(a);
                     Elements nametext = elements.select("div[class=entry-body]").select("header[class=entry-header]").select("h2[class=entry-title] > a").eq(a);
-                  //  String hreftext = elements.select("div[class=entry-body]").select("header[class=entry-header]").select("h2[class=entry-title]").select("a").eq(a).attr("href");
+                    //  String hreftext = elements.select("div[class=entry-body]").select("header[class=entry-header]").select("h2[class=entry-title]").select("a").eq(a).attr("href");
 
-                    MySharedPreference preference=new MySharedPreference(getApplicationContext());
-                    Log.d("RishabhNotification","BBBBBBB "+image);
-                    Log.d("RishabhNotification","BBBBBBBAAAAAAAAA "+preference.getFirstBookUrl());
+                    MySharedPreference preference = new MySharedPreference(getApplicationContext());
+                    Log.d("RishabhNotification", "BBBBBBB " + image);
+                    Log.d("RishabhNotification", "BBBBBBBAAAAAAAAA " + preference.getFirstBookUrl());
 
-                    if(!preference.getFirstBookUrl().equals(image))
-                    {
-                        Log.d("RishabhNotification","New Books come please check $$$$$$$$$$$$$$$$$$$$$$$$$");
-                        ShowNotification("New Book Come",nametext.text(),distext.text());
+                    if (!preference.getFirstBookUrl().equals(image)) {
+                        Log.d("RishabhNotification", "New Books come please check $$$$$$$$$$$$$$$$$$$$$$$$$");
+                        ShowNotification("New Book Come", nametext.text(), distext.text());
 
-                    }
-                    else {
-                        Log.d("RishabhNotification","New Books not come ############################### ");
+                    } else {
+                        Log.d("RishabhNotification", "New Books not come ############################### ");
                     }
                     break;
                 }
@@ -68,13 +75,12 @@ public class NotificationWorker extends Worker {
         } catch (Exception e) {
             e.printStackTrace();
             StartNewRequest();
-            Log.d("RishabhNotification","ERERERERERERERERERERERERERERERERERERERERERERERERERERERE");
+            Log.d("RishabhNotification", "ERERERERERERERERERERERERERERERERERERERERERERERERERERERE");
             return Result.failure();
         }
     }
 
-    private void ShowNotification(String Message, String name,String Information)
-    {
+    private void ShowNotification(String Message, String name, String Information) {
         NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
         String NOTIFICATION_CHANNEL_ID = "my_channel_id_01";
 
@@ -87,7 +93,7 @@ public class NotificationWorker extends Worker {
             notificationChannel.setLightColor(Color.GREEN);
             notificationChannel.setVibrationPattern(new long[]{0, 1000, 500, 1000});
             notificationChannel.enableVibration(true);
-            notificationChannel.setSound(null,null );
+            notificationChannel.setSound(null, null);
             notificationChannel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
             notificationManager.createNotificationChannel(notificationChannel);
         }
@@ -95,9 +101,9 @@ public class NotificationWorker extends Worker {
 
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(getApplicationContext(), NOTIFICATION_CHANNEL_ID);
 
-        Uri uri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         notificationBuilder.setAutoCancel(false)
-                .setDefaults(Notification.DEFAULT_SOUND|Notification.DEFAULT_VIBRATE|Notification.DEFAULT_LIGHTS)
+                .setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE | Notification.DEFAULT_LIGHTS)
                 .setWhen(System.currentTimeMillis())
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setSound(uri)
@@ -107,12 +113,16 @@ public class NotificationWorker extends Worker {
                 .setContentText(name)
                 .setContentInfo(Information);
 
+        if (context != null) {
+            Intent intent = new Intent(context, BottomNavigationActivity.class);
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            notificationBuilder.setContentIntent(pendingIntent);
+        }
         notificationManager.notify(/*notification id*/1, notificationBuilder.build());
     }
 
-    private void StartNewRequest()
-    {
-        OneTimeWorkRequest compressionWork = new OneTimeWorkRequest.Builder(NotificationWorker.class).setInitialDelay(15,TimeUnit.MINUTES).addTag("Notification_Book").build();
+    private void StartNewRequest() {
+        OneTimeWorkRequest compressionWork = new OneTimeWorkRequest.Builder(NotificationWorker.class).setInitialDelay(15, TimeUnit.MINUTES).addTag("Notification_Book").build();
         WorkManager.getInstance().enqueue(compressionWork);
     }
 }
