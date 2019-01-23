@@ -50,6 +50,7 @@ public class BottomNavigationActivity extends AppCompatActivity  {
     private static Fragment myfragment;
     public TextView toolbar_text;
     private AdView mAdView;
+    private AdRequest adRequest;
 
     public ActivityListener activityListener;
     int state;
@@ -76,7 +77,7 @@ public class BottomNavigationActivity extends AppCompatActivity  {
 
 //
         mAdView = findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
+        adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
 //
 
@@ -243,6 +244,7 @@ public class BottomNavigationActivity extends AppCompatActivity  {
                     @Override
                     public void accept(Connectivity connectivity) {
                         if (connectivity.state() == NetworkInfo.State.CONNECTED) {
+                            mAdView.loadAd(adRequest);
                             if (activityListener != null) {
                                 activityListener.network_status(true);
                             }
