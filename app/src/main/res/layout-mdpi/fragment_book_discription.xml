@@ -88,7 +88,7 @@
         </android.support.v7.widget.CardView>
 
 
-        <com.android.rishabhrawat.codingebooks.generalclasses.TouchDetectableScrollView
+        <com.myapps.rishabhrawat.codingebooks.generalclasses.TouchDetectableScrollView
             android:id="@+id/scroll_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -268,7 +268,7 @@ Web app developers and architects; useful for beginners learning front-end devel
                     app:layout_constraintVertical_bias="0.0" />
 
             </android.support.constraint.ConstraintLayout>
-        </com.android.rishabhrawat.codingebooks.generalclasses.TouchDetectableScrollView>
+        </com.myapps.rishabhrawat.codingebooks.generalclasses.TouchDetectableScrollView>
 
 
         <ProgressBar

@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.android.rishabhrawat.codingebooks"
+        applicationId "com.myapps.rishabhrawat.codingebooks"
         minSdkVersion 18
         targetSdkVersion 28
         versionCode 1

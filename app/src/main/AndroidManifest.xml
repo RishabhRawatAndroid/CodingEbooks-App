@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.android.rishabhrawat.codingebooks">
+    package="com.myapps.rishabhrawat.codingebooks">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -15,7 +15,7 @@
         android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".SplashScreenActivity"
+            android:name="com.myapps.rishabhrawat.codingebooks.SplashScreenActivity"
             android:noHistory="true"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -34,12 +34,12 @@
             android:value="ca-app-pub-8451532053051726~9189553565"/>
 
         <activity
-            android:name=".activities.WelcomeViewPagerActivity"
+            android:name="com.myapps.rishabhrawat.codingebooks.activities.WelcomeViewPagerActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:theme="@style/WithoutActionBarTheme"
             android:configChanges="orientation|screenSize"
-            android:name=".activities.BottomNavigationActivity" />
+            android:name="com.myapps.rishabhrawat.codingebooks.activities.BottomNavigationActivity" />
     </application>
 
 </manifest>
